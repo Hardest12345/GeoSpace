@@ -566,7 +566,7 @@ const handleStudentLogin = async () => {
                   type="button"
                   onClick={handleLogin}
                   disabled={isLoading}
-                  className="mt-4 h-[42px] w-full rounded-[8px] bg-gradient-to-r from-[#ff735a] to-[#ff8065] text-[13px] font-semibold text-white shadow-[0_5px_12px_rgba(255,112,86,0.20)] transition hover:from-[#ff654b] hover:to-[#ff7358] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 flex items-center justify-center"
+                  className="mt-4 h-[42px] w-full rounded-[8px] bg-[#ff735a] bg-gradient-to-r from-[#ff735a] to-[#ff8065] text-[13px] font-semibold text-white shadow-[0_5px_12px_rgba(255,112,86,0.20)] transition hover:from-[#ff654b] hover:to-[#ff7358] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 flex items-center justify-center"
                 >
                   {isLoading ? (
                     <>
