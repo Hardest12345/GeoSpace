@@ -73,7 +73,10 @@ export default function Dashboard({ userName, onLogout, onNavigate }) {
         if (!error && data) {
           const completed = data.length;
           setCompletedCount(completed);
-          const percentage = Math.min(100, Math.round((completed / TOTAL_MODULES) * 100));
+          const percentage = Math.min(
+            100,
+            Math.round((completed / TOTAL_MODULES) * 100),
+          );
           setProgress(percentage);
         }
       } catch (err) {
@@ -355,7 +358,8 @@ export default function Dashboard({ userName, onLogout, onNavigate }) {
                       sm:text-[10px]
                     "
                   >
-                    {completedCount} dari {TOTAL_MODULES} modul/pertemuan selesai dikerjakan
+                    {completedCount} dari {TOTAL_MODULES} modul/pertemuan
+                    selesai dikerjakan
                   </p>
                 </div>
 

@@ -159,30 +159,23 @@ export default function GeoChallenge({
   // COMPLETED CHALLENGES
   // ===================================================
 
-  const [completedChallenges, setCompletedChallenges] = useState(
-    () => {
-      try {
-        const saved = localStorage.getItem(
-          "geospace_completed_challenges"
-        );
+  const [completedChallenges, setCompletedChallenges] = useState(() => {
+    try {
+      const saved = localStorage.getItem("geospace_completed_challenges");
 
-        if (!saved) {
-          return [];
-        }
-
-        const parsed = JSON.parse(saved);
-
-        return Array.isArray(parsed) ? parsed : [];
-      } catch (error) {
-        console.error(
-          "Gagal membaca progress GeoChallenge:",
-          error
-        );
-
+      if (!saved) {
         return [];
       }
+
+      const parsed = JSON.parse(saved);
+
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+      console.error("Gagal membaca progress GeoChallenge:", error);
+
+      return [];
     }
-  );
+  });
 
   // ===================================================
   // SAVE PROGRESS & SYNC DENGAN SUPABASE
@@ -222,13 +215,10 @@ export default function GeoChallenge({
     try {
       localStorage.setItem(
         "geospace_completed_challenges",
-        JSON.stringify(completedChallenges)
+        JSON.stringify(completedChallenges),
       );
     } catch (error) {
-      console.error(
-        "Gagal menyimpan progress GeoChallenge:",
-        error
-      );
+      console.error("Gagal menyimpan progress GeoChallenge:", error);
     }
   }, [completedChallenges]);
 
@@ -240,18 +230,14 @@ export default function GeoChallenge({
 
   const totalChallenges = challenges.length;
 
-  const progress = Math.round(
-    (completedCount / totalChallenges) * 100
-  );
+  const progress = Math.round((completedCount / totalChallenges) * 100);
 
   // ===================================================
   // GET CHALLENGE STATUS
   // ===================================================
 
   const getChallengeStatus = (challenge) => {
-    const isCompleted = completedChallenges.includes(
-      challenge.id
-    );
+    const isCompleted = completedChallenges.includes(challenge.id);
 
     if (isCompleted) {
       return "completed";
@@ -261,9 +247,7 @@ export default function GeoChallenge({
       return "available";
     }
 
-    const previousCompleted = completedChallenges.includes(
-      challenge.id - 1
-    );
+    const previousCompleted = completedChallenges.includes(challenge.id - 1);
 
     if (previousCompleted) {
       return "available";
@@ -298,14 +282,9 @@ export default function GeoChallenge({
     setCompletedChallenges([]);
 
     try {
-      localStorage.removeItem(
-        "geospace_completed_challenges"
-      );
+      localStorage.removeItem("geospace_completed_challenges");
     } catch (error) {
-      console.error(
-        "Gagal menghapus progress GeoChallenge:",
-        error
-      );
+      console.error("Gagal menghapus progress GeoChallenge:", error);
     }
   };
 
@@ -336,15 +315,12 @@ export default function GeoChallenge({
     }
 
     if (onStartChallenge) {
-      onStartChallenge(
-        challenge,
-        () => handleChallengeComplete(challenge.id)
-      );
+      onStartChallenge(challenge, () => handleChallengeComplete(challenge.id));
     } else if (onNavigate) {
       onNavigate("geochallengedetail", {
         meeting: challenge.id,
         challenge: challenge,
-        onComplete: () => handleChallengeComplete(challenge.id)
+        onComplete: () => handleChallengeComplete(challenge.id),
       });
     }
   };
@@ -376,11 +352,7 @@ export default function GeoChallenge({
           {/* LOGO / TITLE */}
 
           <div className="absolute left-1/2 flex -translate-x-1/2 items-center gap-3">
-            <Trophy
-              size={38}
-              strokeWidth={2.3}
-              className="text-[#ff5d4d]"
-            />
+            <Trophy size={38} strokeWidth={2.3} className="text-[#ff5d4d]" />
 
             <h1 className="hidden text-[32px] font-extrabold tracking-[2px] text-[#14263d] sm:block">
               <span className="text-[#18aaa6]">GEO</span>
@@ -464,9 +436,9 @@ export default function GeoChallenge({
               </h2>
 
               <p className="mt-2 max-w-[620px] text-[14px] leading-[20px] text-[#d6eeee] sm:text-[15px]">
-                Uji pemahamanmu pada tiap bab pertemuan melalui
-                kuis sumatif, rangkum kesimpulan pembelajaran,
-                dan kembangkan peta konsep mandiri.
+                Uji pemahamanmu pada tiap bab pertemuan melalui kuis sumatif,
+                rangkum kesimpulan pembelajaran, dan kembangkan peta konsep
+                mandiri.
               </p>
             </div>
 
@@ -490,9 +462,7 @@ export default function GeoChallenge({
                   <div className="mt-1 flex items-center justify-between">
                     <span className="text-[22px] font-extrabold text-white">
                       {completedCount} / {totalChallenges}{" "}
-                      <span className="text-[14px] font-medium">
-                        Selesai
-                      </span>
+                      <span className="text-[14px] font-medium">Selesai</span>
                     </span>
 
                     <span className="text-[16px] font-extrabold text-[#ff715f]">
@@ -526,10 +496,7 @@ export default function GeoChallenge({
 
             <div className="flex items-center gap-4">
               <div className="flex h-[54px] w-[54px] shrink-0 items-center justify-center rounded-full bg-[#0f8f91] text-white">
-                <ClipboardCheck
-                  size={28}
-                  strokeWidth={1.9}
-                />
+                <ClipboardCheck size={28} strokeWidth={1.9} />
               </div>
 
               <div>
@@ -538,8 +505,8 @@ export default function GeoChallenge({
                 </h2>
 
                 <p className="mt-0.5 text-[13px] text-[#718096] sm:text-[14px]">
-                  Selesaikan seluruh tantangan secara berurutan
-                  untuk membuka materi berikutnya.
+                  Selesaikan seluruh tantangan secara berurutan untuk membuka
+                  materi berikutnya.
                 </p>
               </div>
             </div>
@@ -554,8 +521,8 @@ export default function GeoChallenge({
               />
 
               <p className="text-[13px] font-medium leading-[18px] text-[#237b80]">
-                Kerjakan kuis, tulis kesimpulan, lalu refleksikan
-                pemahamanmu untuk setiap pertemuan!
+                Kerjakan kuis, tulis kesimpulan, lalu refleksikan pemahamanmu
+                untuk setiap pertemuan!
               </p>
             </div>
           </div>
@@ -567,20 +534,15 @@ export default function GeoChallenge({
 
         <section className="mt-4 space-y-3">
           {challenges.map((challenge) => {
-            const challengeStatus =
-              getChallengeStatus(challenge);
+            const challengeStatus = getChallengeStatus(challenge);
 
-            const status =
-              statusConfig[challengeStatus];
+            const status = statusConfig[challengeStatus];
 
-            const isCompleted =
-              challengeStatus === "completed";
+            const isCompleted = challengeStatus === "completed";
 
-            const isAvailable =
-              challengeStatus === "available";
+            const isAvailable = challengeStatus === "available";
 
-            const isLocked =
-              challengeStatus === "locked";
+            const isLocked = challengeStatus === "locked";
 
             return (
               <ChallengeCard
@@ -609,17 +571,14 @@ export default function GeoChallenge({
             </div>
 
             <p className="text-[13px] leading-[18px] text-[#536173] sm:text-[14px]">
-              <strong className="text-[#26364b]">
-                Tips:
-              </strong>{" "}
-              Selesaikan tantangan secara berurutan untuk
-              membuka materi selanjutnya dan dapatkan
-              sertifikat terbaikmu!
+              <strong className="text-[#26364b]">Tips:</strong> Selesaikan
+              tantangan secara berurutan untuk membuka materi selanjutnya dan
+              dapatkan sertifikat terbaikmu!
             </p>
           </div>
 
           {/* SHARE */}
-{/* 
+          {/* 
           <div className="flex min-w-[320px] shrink-0 items-center justify-center gap-3 rounded-[12px] border border-[#e5eeee] bg-white px-6 py-3 shadow-[0_2px_8px_rgba(30,60,70,0.03)]">
             <span className="mr-1 text-[13px] font-bold text-[#526273]">
               Bagikan progresmu:
@@ -803,18 +762,12 @@ function ChallengeCard({
 
           <div
             className={`flex items-center gap-2.5 rounded-[8px] px-3 py-2.5 ${
-              isLocked
-                ? "bg-[#f6f7f8]"
-                : "bg-[#f1f8f8]"
+              isLocked ? "bg-[#f6f7f8]" : "bg-[#f1f8f8]"
             }`}
           >
             <ClipboardCheck
               size={18}
-              className={
-                isLocked
-                  ? "text-[#7d8795]"
-                  : "text-[#18aaa6]"
-              }
+              className={isLocked ? "text-[#7d8795]" : "text-[#18aaa6]"}
             />
 
             <span className="text-[12px] font-semibold text-[#526273]">
@@ -826,18 +779,12 @@ function ChallengeCard({
 
           <div
             className={`flex items-center gap-2.5 rounded-[8px] px-3 py-2.5 ${
-              isLocked
-                ? "bg-[#f6f7f8]"
-                : "bg-[#f1f8f8]"
+              isLocked ? "bg-[#f6f7f8]" : "bg-[#f1f8f8]"
             }`}
           >
             <FileText
               size={18}
-              className={
-                isLocked
-                  ? "text-[#7d8795]"
-                  : "text-[#18aaa6]"
-              }
+              className={isLocked ? "text-[#7d8795]" : "text-[#18aaa6]"}
             />
 
             <span className="text-[12px] font-semibold text-[#526273]">
@@ -890,9 +837,7 @@ function ChallengeCard({
 
             <p
               className={`text-[13px] font-extrabold ${
-                isLocked
-                  ? "text-[#718096]"
-                  : "text-[#18aaa6]"
+                isLocked ? "text-[#718096]" : "text-[#18aaa6]"
               }`}
             >
               {status.label}
@@ -922,11 +867,7 @@ function ChallengeCard({
         >
           <span>{status.button}</span>
 
-          {isLocked ? (
-            <LockKeyhole size={16} />
-          ) : (
-            <ArrowRight size={18} />
-          )}
+          {isLocked ? <LockKeyhole size={16} /> : <ArrowRight size={18} />}
         </button>
       </div>
     </article>

@@ -151,18 +151,16 @@ const TeacherDashboard = ({ onLogout, teacherName, onViewStudentDetail }) => {
           `Siswa "${nama}" sudah terdaftar dan diaktifkan kembali!`,
         );
       } else {
-        const { error } = await supabase
-          .from("users")
-          .insert([
-            {
-              nama: nama.trim(),
-              role: "student",
-              kelas: kelas.trim().toUpperCase(),
-              sekolah: sekolah.trim() || null,
-              created_by: teacherData?.id || null,
-              is_active: true,
-            },
-          ]);
+        const { error } = await supabase.from("users").insert([
+          {
+            nama: nama.trim(),
+            role: "student",
+            kelas: kelas.trim().toUpperCase(),
+            sekolah: sekolah.trim() || null,
+            created_by: teacherData?.id || null,
+            is_active: true,
+          },
+        ]);
 
         if (error) throw error;
 
@@ -243,35 +241,37 @@ const TeacherDashboard = ({ onLogout, teacherName, onViewStudentDetail }) => {
   useEffect(() => {
     fetchStudents();
   }, []);
-const [showImagePreview, setShowImagePreview] = useState(null);
+  const [showImagePreview, setShowImagePreview] = useState(null);
 
   // =====================================================
   // RENDER
   // =====================================================
-{showImagePreview && (
-  <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-    <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-xl max-h-[90vh] overflow-y-auto">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-bold text-slate-800">Preview Gambar</h3>
-        <button
-          onClick={() => setShowImagePreview(null)}
-          className="text-slate-400 hover:text-slate-600"
-        >
-          <X className="w-5 h-5" />
-        </button>
+  {
+    showImagePreview && (
+      <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-xl max-h-[90vh] overflow-y-auto">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-bold text-slate-800">Preview Gambar</h3>
+            <button
+              onClick={() => setShowImagePreview(null)}
+              className="text-slate-400 hover:text-slate-600"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          <img
+            src={getImageUrl(showImagePreview)}
+            alt="Preview"
+            className="w-full h-auto max-h-[70vh] object-contain rounded-lg"
+            onError={(e) => {
+              e.target.alt = "Gambar tidak dapat dimuat";
+              e.target.className = "text-red-500 p-4";
+            }}
+          />
+        </div>
       </div>
-      <img
-        src={getImageUrl(showImagePreview)}
-        alt="Preview"
-        className="w-full h-auto max-h-[70vh] object-contain rounded-lg"
-        onError={(e) => {
-          e.target.alt = "Gambar tidak dapat dimuat";
-          e.target.className = "text-red-500 p-4";
-        }}
-      />
-    </div>
-  </div>
-)}
+    );
+  }
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
