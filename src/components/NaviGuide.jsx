@@ -25,32 +25,11 @@ import {
 
 const GeospaceLogo = () => {
   return (
-    <div className="flex items-center gap-3">
-      {/* Logo Mark */}
-      <div className="relative flex h-[48px] w-[48px] items-center justify-center">
-        {/* Cube */}
-        <div className="absolute h-[34px] w-[34px] rotate-45 rounded-[4px] border-[2.5px] border-[#18aaa6]" />
-
-        {/* Cube vertical */}
-        <div className="absolute h-[36px] w-[2.5px] bg-[#18aaa6]" />
-
-        {/* Cube horizontal */}
-        <div className="absolute h-[2.5px] w-[36px] rotate-30 bg-[#18aaa6]" />
-
-        {/* Center */}
-        <div className="absolute h-[13px] w-[13px] rounded-full bg-[#ff6b5c] shadow-sm" />
-      </div>
-
-      {/* Logo Text */}
-      <div className="flex items-center">
-        <span className="text-[34px] font-extrabold tracking-[3px] text-[#18aaa6]">
-          GEO
-        </span>
-        <span className="text-[34px] font-extrabold tracking-[3px] text-[#14263d]">
-          SPACE
-        </span>
-      </div>
-    </div>
+    <img
+      src="/images/Geospace.png"
+      alt="GeoSpace Logo"
+      className="h-10 w-auto object-contain"
+    />
   );
 };
 

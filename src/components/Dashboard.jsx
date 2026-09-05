@@ -11,7 +11,9 @@ import {
   ArrowRight,
   BarChart3,
   Sparkles,
+  CheckCircle2,
 } from "lucide-react";
+import { supabase } from "../lib/supabase";
 
 // =====================================================
 // GEOSPACE LOGO
@@ -19,78 +21,11 @@ import {
 
 const GeospaceLogo = () => {
   return (
-    <div className="flex items-center gap-3 select-none">
-      {/* Logo mark */}
-      <div className="relative flex h-9 w-9 items-center justify-center">
-        <div
-          className="
-            absolute
-            inset-0
-            rotate-30
-            rounded-[7px]
-            border-[2px]
-            border-[#18aaa6]
-          "
-        />
-
-        <div
-          className="
-            relative
-            flex
-            h-[21px]
-            w-[21px]
-            items-center
-            justify-center
-          "
-        >
-          <div
-            className="
-              absolute
-              h-[15px]
-              w-[15px]
-              rotate-45
-              rounded-[2px]
-              border-[1.5px]
-              border-[#ff6b5c]
-            "
-          />
-
-          <div
-            className="
-              absolute
-              h-[8px]
-              w-[8px]
-              rounded-full
-              bg-[#18aaa6]
-            "
-          />
-        </div>
-      </div>
-
-      <div className="flex items-center">
-        <span
-          className="
-            text-[20px]
-            font-extrabold
-            tracking-[1.5px]
-            text-[#14263d]
-          "
-        >
-          GEO
-        </span>
-
-        <span
-          className="
-            text-[20px]
-            font-extrabold
-            tracking-[1.5px]
-            text-[#18aaa6]
-          "
-        >
-          SPACE
-        </span>
-      </div>
-    </div>
+    <img
+      src="/images/Geospace.png"
+      alt="GeoSpace Logo"
+      className="h-9 w-auto object-contain"
+    />
   );
 };
 
@@ -98,16 +33,56 @@ const GeospaceLogo = () => {
 // DASHBOARD
 // =====================================================
 
-export default function Dashboard({ onLogout, onNavigate }) {
-  const [namaSiswa, setNamaSiswa] = useState("Siswa");
-  const [progress, setProgress] = useState(20);
+export default function Dashboard({ userName, onLogout, onNavigate }) {
+  const [namaSiswa, setNamaSiswa] = useState(userName || "Siswa");
+  const [progress, setProgress] = useState(0);
+  const [completedCount, setCompletedCount] = useState(0);
+  const TOTAL_MODULES = 8; // 4 Pertemuan GeoExplore + 4 Pertemuan GeoChallenge
 
   useEffect(() => {
-    const savedName = localStorage.getItem("geospace_user");
-    if (savedName) {
-      setNamaSiswa(savedName);
+    const savedData = localStorage.getItem("geospace_user");
+    let userId = null;
+
+    if (savedData) {
+      try {
+        const sessionData = JSON.parse(savedData);
+        if (sessionData && sessionData.nama) {
+          setNamaSiswa(sessionData.nama);
+        }
+        userId = sessionData.id;
+      } catch (err) {
+        setNamaSiswa(savedData);
+      }
     }
-  }, []);
+
+    if (userName) {
+      setNamaSiswa(userName);
+    }
+
+    // Fetch progress dari Supabase
+    const fetchUserProgress = async () => {
+      if (!userId) return;
+
+      try {
+        const { data, error } = await supabase
+          .from("progress")
+          .select("*")
+          .eq("user_id", userId)
+          .eq("status", "completed");
+
+        if (!error && data) {
+          const completed = data.length;
+          setCompletedCount(completed);
+          const percentage = Math.min(100, Math.round((completed / TOTAL_MODULES) * 100));
+          setProgress(percentage);
+        }
+      } catch (err) {
+        console.error("Error fetching progress for dashboard:", err);
+      }
+    };
+
+    fetchUserProgress();
+  }, [userName]);
 
   const handleLogoutClick = () => {
     localStorage.removeItem("geospace_user");
@@ -380,8 +355,7 @@ export default function Dashboard({ onLogout, onNavigate }) {
                       sm:text-[10px]
                     "
                   >
-                    Selesaikan semua modul untuk menyelesaikan petualangan
-                    Geospace
+                    {completedCount} dari {TOTAL_MODULES} modul/pertemuan selesai dikerjakan
                   </p>
                 </div>
 

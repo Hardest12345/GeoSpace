@@ -18,49 +18,11 @@ import {
 
 const GeospaceLogo = () => {
   return (
-    <div className="flex items-center gap-2">
-      {/* Logo mark */}
-      <div className="relative h-[40px] w-[38px] shrink-0">
-        {/* Hexagon */}
-        <div
-          className="absolute inset-[2px]"
-          style={{
-            clipPath:
-              "polygon(50% 0%, 94% 25%, 94% 75%, 50% 100%, 6% 75%, 6% 25%)",
-            background: "#18AAA6",
-          }}
-        />
-
-        {/* Inner */}
-        <div
-          className="absolute inset-[5px]"
-          style={{
-            clipPath:
-              "polygon(50% 0%, 94% 25%, 94% 75%, 50% 100%, 6% 75%, 6% 25%)",
-            background: "white",
-          }}
-        />
-
-        {/* Geometry lines */}
-        <div className="absolute left-[18px] top-[5px] h-[30px] w-[2px] rotate-[30deg] bg-[#18AAA6]" />
-
-        <div className="absolute left-[8px] top-[19px] h-[2px] w-[28px] rotate-[30deg] bg-[#18AAA6]" />
-
-        {/* Center */}
-        <div className="absolute left-[13px] top-[14px] h-[11px] w-[11px] rounded-full bg-[#FF6657]" />
-      </div>
-
-      {/* Text */}
-      <div className="flex items-center leading-none">
-        <span className="text-[28px] font-extrabold tracking-[2px] text-[#18AAA6]">
-          GEO
-        </span>
-
-        <span className="text-[28px] font-extrabold tracking-[2px] text-[#14263D]">
-          SPACE
-        </span>
-      </div>
-    </div>
+    <img
+      src="/images/Geospace.png"
+      alt="GeoSpace Logo"
+      className="h-10 w-auto object-contain"
+    />
   );
 };
 

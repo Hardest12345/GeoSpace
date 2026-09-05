@@ -1,6 +1,7 @@
 // GeoChallenge.jsx
 
 import React, { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
 import {
   ArrowLeft,
   ArrowRight,
@@ -25,29 +26,11 @@ import {
 
 const GeospaceLogo = () => {
   return (
-    <div className="flex items-center gap-3">
-      {/* Logo Mark */}
-      <div className="relative flex h-[48px] w-[48px] items-center justify-center">
-        {/* Cube outline */}
-        <div className="absolute left-[22px] top-[2px] h-[42px] w-[3px] bg-[#18aaa6]" />
-
-        <div className="absolute left-[5px] top-[24px] h-[3px] w-[42px] rotate-[30deg] bg-[#18aaa6]" />
-
-        {/* Center */}
-        <div className="absolute h-[13px] w-[13px] rounded-full bg-[#ff6b5c]" />
-      </div>
-
-      {/* Logo Text */}
-      <div className="flex items-center">
-        <span className="text-[36px] font-extrabold tracking-[3px] text-[#18aaa6]">
-          GEO
-        </span>
-
-        <span className="text-[36px] font-extrabold tracking-[3px] text-[#14263d]">
-          SPACE
-        </span>
-      </div>
-    </div>
+    <img
+      src="/images/Geospace.png"
+      alt="GeoSpace Logo"
+      className="h-10 w-auto object-contain"
+    />
   );
 };
 
@@ -145,7 +128,7 @@ const statusConfig = {
   completed: {
     label: "Selesai",
     description: "Tantangan sudah diselesaikan",
-    button: "Lihat Hasil",
+    button: "Buka Kembali",
   },
 
   available: {
@@ -167,6 +150,7 @@ const statusConfig = {
 
 export default function GeoChallenge({
   onNavigate,
+  onOpenDetail,
   onStartChallenge,
   onViewResult,
   onChallengeComplete,
@@ -201,8 +185,38 @@ export default function GeoChallenge({
   );
 
   // ===================================================
-  // SAVE PROGRESS
+  // SAVE PROGRESS & SYNC DENGAN SUPABASE
   // ===================================================
+
+  useEffect(() => {
+    const fetchProgressFromSupabase = async () => {
+      try {
+        const savedData = localStorage.getItem("geospace_user");
+        if (!savedData) return;
+
+        const sessionData = JSON.parse(savedData);
+        if (!sessionData || !sessionData.id) return;
+
+        const { data, error } = await supabase
+          .from("student_answers")
+          .select("pertemuan")
+          .eq("user_id", sessionData.id);
+
+        if (!error && data) {
+          const finishedMeetings = [
+            ...new Set(data.map((item) => Number(item.pertemuan))),
+          ];
+          setCompletedChallenges((prev) => {
+            return [...new Set([...prev, ...finishedMeetings])];
+          });
+        }
+      } catch (err) {
+        console.error("Error fetching completed challenges:", err);
+      }
+    };
+
+    fetchProgressFromSupabase();
+  }, []);
 
   useEffect(() => {
     try {
@@ -312,37 +326,26 @@ export default function GeoChallenge({
   const handleChallengeAction = (challenge) => {
     const challengeStatus = getChallengeStatus(challenge);
 
-    // Jika terkunci, tidak melakukan apa-apa
     if (challengeStatus === "locked") {
       return;
     }
 
-    // Jika sudah selesai, tampilkan hasil
-    if (challengeStatus === "completed") {
-      if (onViewResult) {
-        onViewResult(challenge);
-      }
+    if (onOpenDetail) {
+      onOpenDetail(challenge.id);
       return;
     }
 
-    // Jika tersedia, arahkan ke GeoChallengeDetail
-    if (challengeStatus === "available") {
-      // Panggil onStartChallenge jika ada, atau langsung navigasi
-      if (onStartChallenge) {
-        onStartChallenge(
-          challenge,
-          () => handleChallengeComplete(challenge.id)
-        );
-      } else {
-        // LANGSUNG NAVIGASI KE GeoChallengeDetail DENGAN MEMBAWA DATA PERTEMUAN
-        if (onNavigate) {
-          onNavigate("geochallengedetail", {
-            meeting: challenge.id,
-            challenge: challenge,
-            onComplete: () => handleChallengeComplete(challenge.id)
-          });
-        }
-      }
+    if (onStartChallenge) {
+      onStartChallenge(
+        challenge,
+        () => handleChallengeComplete(challenge.id)
+      );
+    } else if (onNavigate) {
+      onNavigate("geochallengedetail", {
+        meeting: challenge.id,
+        challenge: challenge,
+        onComplete: () => handleChallengeComplete(challenge.id)
+      });
     }
   };
 
@@ -616,13 +619,12 @@ export default function GeoChallenge({
           </div>
 
           {/* SHARE */}
-
+{/* 
           <div className="flex min-w-[320px] shrink-0 items-center justify-center gap-3 rounded-[12px] border border-[#e5eeee] bg-white px-6 py-3 shadow-[0_2px_8px_rgba(30,60,70,0.03)]">
             <span className="mr-1 text-[13px] font-bold text-[#526273]">
               Bagikan progresmu:
             </span>
 
-            {/* WhatsApp */}
 
             <button
               type="button"
@@ -632,7 +634,6 @@ export default function GeoChallenge({
               <MessageCircle size={20} />
             </button>
 
-            {/* Telegram */}
 
             <button
               type="button"
@@ -642,7 +643,6 @@ export default function GeoChallenge({
               <Send size={20} />
             </button>
 
-            {/* Share */}
 
             <button
               type="button"
@@ -651,7 +651,7 @@ export default function GeoChallenge({
             >
               <Share2 size={20} />
             </button>
-          </div>
+          </div> */}
         </section>
       </main>
 

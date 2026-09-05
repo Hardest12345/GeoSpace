@@ -17,80 +17,11 @@ import {
 
 const GeospaceLogo = () => {
   return (
-    <div className="flex items-center gap-2">
-      {/* Logo mark */}
-      <div className="relative flex h-[42px] w-[42px] items-center justify-center">
-        {/* Cube */}
-        <div
-          className="
-            absolute
-            h-[28px]
-            w-[28px]
-            rotate-45
-            rounded-[2px]
-            border-[2px]
-            border-[#18aaa6]
-          "
-        />
-
-        {/* Cube vertical */}
-        <div
-          className="
-            absolute
-            h-[28px]
-            w-[2px]
-            bg-[#18aaa6]
-          "
-        />
-
-        {/* Cube diagonal */}
-        <div
-          className="
-            absolute
-            h-[2px]
-            w-[28px]
-            rotate-[30deg]
-            bg-[#18aaa6]
-          "
-        />
-
-        {/* Center */}
-        <div
-          className="
-            absolute
-            h-[10px]
-            w-[10px]
-            rounded-full
-            bg-[#ff6b5c]
-          "
-        />
-      </div>
-
-      {/* Text */}
-      <div className="flex items-center">
-        <span
-          className="
-            text-[25px]
-            font-extrabold
-            tracking-[2px]
-            text-[#18aaa6]
-          "
-        >
-          GEO
-        </span>
-
-        <span
-          className="
-            text-[25px]
-            font-extrabold
-            tracking-[2px]
-            text-[#14263d]
-          "
-        >
-          SPACE
-        </span>
-      </div>
-    </div>
+    <img
+      src="/images/Geospace.png"
+      alt="GeoSpace Logo"
+      className="h-10 w-auto object-contain"
+    />
   );
 };
 
@@ -272,7 +203,7 @@ export default function GeoMission({
       id: 4,
       taxonomies: "C5",
       title: "Membuktikan Rumus",
-      desc: "Peserta didik mampu membuktikan rumus luas permukaan dan volume bangun ruang melalui eksplorasi dan pemecahan masalah pada e-modul Geospace dengan menyusun langkah pembuktian secara runtut dan memberikan alasan matematis yang benar.",
+      desc: "Peserta didik mampu membuktikan rumus luas permukaan bangun ruang melalui eksplorasi dan pemecahan masalah pada e-modul Geospace dengan menyusun langkah pembuktian secara runtut dan memberikan alasan matematis yang benar.",
     },
   ];
 

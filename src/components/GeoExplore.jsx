@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -8,6 +8,11 @@ import {
   Grid3X3,
   Sparkles,
 } from "lucide-react";
+import GeoExploreMeeting1 from "./GeoExploreMeeting1";
+import GeoExploreMeeting2 from "./GeoExploreMeeting2";
+import GeoExploreMeeting3 from "./GeoExploreMeeting3";
+import GeoExploreMeeting4 from "./GeoExploreMeeting4";
+import ErrorBoundary from "./ErrorBoundary";
 
 // =====================================================
 // DATA PERTEMUAN
@@ -48,7 +53,7 @@ const meetings = [
     description:
       "Membuktikan dan menerapkan rumus luas permukaan serta volume kubus & balok.",
     icon: Calculator,
-    color: "coral",
+    color: "teal",
   },
 ];
 
@@ -58,28 +63,11 @@ const meetings = [
 
 const GeospaceLogo = () => {
   return (
-    <div className="flex items-center gap-2">
-      {/* Logo mark */}
-      <div className="relative flex h-[42px] w-[42px] items-center justify-center">
-        {/* Cube */}
-        <div className="absolute h-[30px] w-[30px] rotate-45 rounded-[4px] border-[2px] border-[#18aaa6]" />
-
-        <div className="absolute h-[30px] w-[30px] rotate-45 rounded-[4px] border-[2px] border-[#18aaa6]" />
-
-        {/* Center */}
-        <div className="absolute h-[12px] w-[12px] rounded-full bg-[#ff5d4d]" />
-      </div>
-
-      {/* Text */}
-      <div className="flex items-center">
-        <span className="text-[29px] font-extrabold tracking-[2px] text-[#18aaa6]">
-          GEO
-        </span>
-        <span className="text-[29px] font-extrabold tracking-[2px] text-[#14263d]">
-          SPACE
-        </span>
-      </div>
-    </div>
+    <img
+      src="/images/Geospace.png"
+      alt="GeoSpace Logo"
+      className="h-10 w-auto object-contain"
+    />
   );
 };
 
@@ -248,12 +236,54 @@ export default function GeoExplore({
   // ---------------------------------------------------
   // SELECT MEETING
   // ---------------------------------------------------
+  const [selectedMeeting, setSelectedMeeting] = useState(null);
 
   const handleSelectMeeting = (meetingId) => {
+    setSelectedMeeting(meetingId);
     if (onSelectMeeting) {
       onSelectMeeting(meetingId);
     }
   };
+
+  // Jika ada meeting yang dipilih, tampilkan halaman detail
+  if (selectedMeeting === 1) {
+    return (
+      <GeoExploreMeeting1
+        onBack={() => setSelectedMeeting(null)}
+        onNavigateNext={() => setSelectedMeeting(2)}
+        onNavigatePrev={() => setSelectedMeeting(null)}
+      />
+    );
+  }
+  if (selectedMeeting === 2) {
+    return (
+      <GeoExploreMeeting2
+        onBack={() => setSelectedMeeting(1)}
+        onNavigateNext={() => setSelectedMeeting(3)}
+        onNavigatePrev={() => setSelectedMeeting(1)}
+      />
+    );
+  }
+  if (selectedMeeting === 3) {
+    return (
+      <ErrorBoundary>
+        <GeoExploreMeeting3
+          onBack={() => setSelectedMeeting(2)}
+          onNavigateNext={() => setSelectedMeeting(4)}
+          onNavigatePrev={() => setSelectedMeeting(2)}
+        />
+      </ErrorBoundary>
+    );
+  }
+  if (selectedMeeting === 4) {
+    return (
+      <GeoExploreMeeting4
+        onBack={() => setSelectedMeeting(3)}
+        onNavigateNext={onNavigateNext}
+        onNavigatePrev={() => setSelectedMeeting(3)}
+      />
+    );
+  }
 
   // ---------------------------------------------------
   // RENDER
@@ -296,35 +326,31 @@ export default function GeoExplore({
       ================================================= */}
 
       <main className="relative mx-auto flex w-full max-w-[1200px] flex-1 flex-col px-5 pb-5 pt-7 sm:px-8">
+        {/* TITLE */}
+        <section className="relative z-10 mb-6 text-center">
+          <h1 className="text-[30px] font-extrabold tracking-[-0.6px] text-[#14263d] sm:text-[34px]">
+            Pilih Pertemuan Pembelajaran
+          </h1>
 
-  {/* TITLE */}
-  <section className="relative z-10 mb-6 text-center">
-    <h1 className="text-[30px] font-extrabold tracking-[-0.6px] text-[#14263d] sm:text-[34px]">
-      Pilih Pertemuan Pembelajaran
-    </h1>
+          <p className="mt-2 text-[13px] leading-[20px] text-[#718096] sm:text-[14px]">
+            Eksplorasi materi bangun ruang secara interaktif berbasis sintaks{" "}
+            <span className="font-bold text-[#18aaa6]">
+              Inquiry Scaffolding.
+            </span>
+          </p>
+        </section>
 
-    <p className="mt-2 text-[13px] leading-[20px] text-[#718096] sm:text-[14px]">
-      Eksplorasi materi bangun ruang secara interaktif berbasis sintaks{" "}
-      <span className="font-bold text-[#18aaa6]">
-        Inquiry Scaffolding.
-      </span>
-    </p>
-  </section>
-
-  {/* MEETING GRID */}
-  <section className="relative z-10 grid grid-cols-2 gap-4">
-
-    {meetings.map((meeting) => (
-      <MeetingCard
-        key={meeting.id}
-        meeting={meeting}
-        onSelect={handleSelectMeeting}
-      />
-    ))}
-
-  </section>
-
-</main>
+        {/* MEETING GRID */}
+        <section className="relative z-10 grid grid-cols-2 gap-4">
+          {meetings.map((meeting) => (
+            <MeetingCard
+              key={meeting.id}
+              meeting={meeting}
+              onSelect={handleSelectMeeting}
+            />
+          ))}
+        </section>
+      </main>
 
       {/* =================================================
           FOOTER NAVIGATION
