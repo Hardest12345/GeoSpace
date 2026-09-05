@@ -9,4 +9,8 @@ export default defineConfig({
   ],
   // Opsional: tambahkan base path untuk production
   base: './',
+<<<<<<< HEAD
 })
+=======
+})
+>>>>>>> d78d614b96abd962ec4be9b622deabda809503b7
