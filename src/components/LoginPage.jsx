@@ -563,40 +563,25 @@ const handleStudentLogin = async () => {
 
                 {/* Login Button */}
                 <button
-                  type="button"
-                  onClick={handleLogin}
-                  disabled={isLoading}
-                  className="mt-4 h-[42px] w-full rounded-[8px] bg-[#ff735a] bg-gradient-to-r from-[#ff735a] to-[#ff8065] text-[13px] font-semibold text-white shadow-[0_5px_12px_rgba(255,112,86,0.20)] transition hover:from-[#ff654b] hover:to-[#ff7358] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 flex items-center justify-center"
-                >
-                  {isLoading ? (
-                    <>
-                      <svg
-                        className="mr-2 h-4 w-4 animate-spin"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                          fill="none"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        />
-                      </svg>
-                      Memproses...
-                    </>
-                  ) : loginMode === "student" ? (
-                    "Masuk 🚀"
-                  ) : (
-                    "Masuk sebagai Guru 👨‍🏫"
-                  )}
-                </button>
+  type="button"
+  onClick={handleLogin}
+  disabled={isLoading}
+  className="mt-4 h-[42px] w-full rounded-lg bg-orange-500 text-white font-semibold hover:bg-orange-600 active:scale-95 transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center"
+>
+  {isLoading ? (
+    <>
+      <svg className="mr-2 h-4 w-4 animate-spin" viewBox="0 0 24 24">
+        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+      </svg>
+      Memproses...
+    </>
+  ) : loginMode === "student" ? (
+    "Masuk 🚀"
+  ) : (
+    "Masuk sebagai Guru 👨‍🏫"
+  )}
+</button>
 
                 {/* Toggle Login Mode */}
                 <div className="mt-4 text-center">
