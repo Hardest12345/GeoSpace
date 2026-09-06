@@ -22,6 +22,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import { supabase } from "../lib/supabase";
+import SubmitPopup from "./SubmitPopup";
 
 // =====================================================
 // GEOSPACE LOGO
@@ -641,7 +642,11 @@ export default function GeoExploreMeeting1({
   const [masukan, setMasukan] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
+  
+  // State untuk Popup
+  const [showSubmitPopup, setShowSubmitPopup] = useState(false);
+  const [popupType, setPopupType] = useState("confirm"); // "confirm" | "success" | "error"
+  const [popupMessage, setPopupMessage] = useState("");
 
   // ===================================================
   // FETCH EXISTING ANSWERS
@@ -707,6 +712,33 @@ export default function GeoExploreMeeting1({
   // ===================================================
 
   const handleSubmit = async () => {
+    // Cek apakah ada jawaban yang diisi
+    const hasAnswers = 
+      jawabanOrientasi.trim() ||
+      bentukRuang ||
+      alasan.trim() ||
+      jumlahSisi.trim() ||
+      jumlahRusukSudut.trim() ||
+      Object.values(dataEksplorasi).some(v => v?.trim()) ||
+      refleksi.trim() ||
+      masukan.trim();
+
+    if (!hasAnswers) {
+      setPopupType("error");
+      setPopupMessage("Silakan isi minimal 1 jawaban terlebih dahulu!");
+      setShowSubmitPopup(true);
+      return;
+    }
+
+    // Tampilkan popup konfirmasi
+    setPopupType("confirm");
+    setPopupMessage("Apakah Anda yakin ingin mengirimkan jawaban untuk Pertemuan 1?");
+    setShowSubmitPopup(true);
+  };
+
+  // Fungsi eksekusi submit setelah konfirmasi
+  const executeSubmit = async () => {
+    setShowSubmitPopup(false);
     setIsSubmitting(true);
 
     try {
@@ -723,7 +755,9 @@ export default function GeoExploreMeeting1({
       }
 
       if (!userId) {
-        alert("Silakan login terlebih dahulu!");
+        setPopupType("error");
+        setPopupMessage("Silakan login terlebih dahulu!");
+        setShowSubmitPopup(true);
         setIsSubmitting(false);
         return;
       }
@@ -831,7 +865,9 @@ export default function GeoExploreMeeting1({
       }
 
       if (rowsToInsert.length === 0) {
-        alert("Silakan isi minimal 1 jawaban terlebih dahulu!");
+        setPopupType("error");
+        setPopupMessage("Silakan isi minimal 1 jawaban terlebih dahulu!");
+        setShowSubmitPopup(true);
         setIsSubmitting(false);
         return;
       }
@@ -845,14 +881,6 @@ export default function GeoExploreMeeting1({
         .eq("pertemuan", 1);
 
       if (existingAnswers && existingAnswers.length > 0) {
-        const confirmOverwrite = window.confirm(
-          "Anda sudah mengirimkan jawaban untuk Pertemuan 1.\n\nApakah Anda ingin mengganti dengan jawaban baru?",
-        );
-        if (!confirmOverwrite) {
-          setIsSubmitting(false);
-          return;
-        }
-
         // Hapus hanya jawaban geoexplore pertemuan 1
         await supabase
           .from("student_answers")
@@ -869,7 +897,9 @@ export default function GeoExploreMeeting1({
 
       if (insertError) {
         console.error("Error saving answers:", insertError);
-        alert("Gagal menyimpan jawaban: " + insertError.message);
+        setPopupType("error");
+        setPopupMessage("Gagal menyimpan jawaban: " + insertError.message);
+        setShowSubmitPopup(true);
         setIsSubmitting(false);
         return;
       }
@@ -907,14 +937,21 @@ export default function GeoExploreMeeting1({
         ]);
       }
 
-      setShowSuccess(true);
+      // Tampilkan popup sukses
+      setPopupType("success");
+      setPopupMessage("Jawaban Anda berhasil dikirim untuk Pertemuan 1!");
+      setShowSubmitPopup(true);
+      
       setTimeout(() => {
-        setShowSuccess(false);
+        setShowSubmitPopup(false);
         if (onNavigateNext) onNavigateNext();
-      }, 3000);
+      }, 2000);
+
     } catch (err) {
       console.error("Error submitting:", err);
-      alert("Terjadi kesalahan: " + err.message);
+      setPopupType("error");
+      setPopupMessage("Terjadi kesalahan: " + err.message);
+      setShowSubmitPopup(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -925,174 +962,193 @@ export default function GeoExploreMeeting1({
   // ===================================================
 
   return (
-    <div className="min-h-screen bg-[#f7fafb] text-[#14263d]">
-      {/* HEADER */}
-      <header className="sticky top-0 z-30 bg-[#006b70] shadow-[0_2px_10px_rgba(0,50,60,0.12)]">
-        <div className="mx-auto flex h-[62px] max-w-[1400px] items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex min-w-0 items-center gap-3">
-            <button
-              type="button"
-              onClick={onBack}
-              className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-all hover:bg-white/20"
-              aria-label="Kembali"
-            >
-              <ArrowLeft size={19} />
-            </button>
-            <GeospaceLogo />
-          </div>
-          <div className="hidden items-center gap-2 sm:flex">
-            <div className="rounded-full bg-white/15 px-3.5 py-1.5 text-[12px] font-bold text-white">
-              Pertemuan 1
-            </div>
-          </div>
-          <div className="hidden items-center gap-2 lg:flex">
-            <span className="text-[18px] text-[#ffca45]">✦</span>
-            <div className="h-[38px] w-[38px] rotate-[30deg] bg-[#17a4a3] shadow-[inset_-8px_-8px_0_rgba(0,0,0,0.1)]" />
-            <div className="h-[32px] w-[32px] rotate-[30deg] bg-[#ff7a43] shadow-[inset_-7px_-7px_0_rgba(0,0,0,0.1)]" />
-          </div>
-        </div>
-        <div className="border-t border-white/10 px-4 py-2 sm:hidden">
-          <span className="rounded-full bg-white/15 px-3 py-1 text-[10px] font-bold text-white">
-            Pertemuan 1
-          </span>
-        </div>
-      </header>
-
-      {/* MAIN CONTENT */}
-      <main className="mx-auto w-full max-w-[1200px] px-4 py-6 sm:px-6 lg:px-8">
-        {/* Title */}
-        <div className="mb-6 text-center">
-          <h1 className="text-[24px] font-extrabold text-[#14263d] sm:text-[28px]">
-            Unsur dan Sifat Bangun Ruang
-          </h1>
-          <p className="mt-1 text-[12px] text-[#718096]">
-            Eksplorasi interaktif berbasis Inquiry Scaffolding
-          </p>
-        </div>
-
-        {/* Progress Indicator */}
-        <div className="mb-6 flex items-center justify-center gap-2">
-          {[1, 2, 3, 4].map((step) => (
-            <div key={step} className="flex items-center">
-              <div
-                className={`flex h-[30px] w-[30px] items-center justify-center rounded-full text-[10px] font-bold ${
-                  step === 1
-                    ? "bg-[#18aaa6] text-white"
-                    : "bg-[#e5eeee] text-[#718096]"
-                }`}
+    <>
+      <div className="min-h-screen bg-[#f7fafb] text-[#14263d]">
+        {/* HEADER */}
+        <header className="sticky top-0 z-30 bg-[#006b70] shadow-[0_2px_10px_rgba(0,50,60,0.12)]">
+          <div className="mx-auto flex h-[62px] max-w-[1400px] items-center justify-between px-4 sm:px-6 lg:px-8">
+            <div className="flex min-w-0 items-center gap-3">
+              <button
+                type="button"
+                onClick={onBack}
+                className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-all hover:bg-white/20"
+                aria-label="Kembali"
               >
-                {step}
-              </div>
-              {step < 4 && (
-                <div className="h-[2px] w-[20px] bg-[#e5eeee] sm:w-[40px]" />
-              )}
+                <ArrowLeft size={19} />
+              </button>
+              <GeospaceLogo />
             </div>
-          ))}
-        </div>
-
-        {/* TAHAPAN */}
-        <div className="space-y-4">
-          <TahapOrientasi
-            jawaban={jawabanOrientasi}
-            setJawaban={setJawabanOrientasi}
-          />
-
-          <TahapHipotesis
-            bentukRuang={bentukRuang}
-            setBentukRuang={setBentukRuang}
-            alasan={alasan}
-            setAlasan={setAlasan}
-            jumlahSisi={jumlahSisi}
-            setJumlahSisi={setJumlahSisi}
-            jumlahRusukSudut={jumlahRusukSudut}
-            setJumlahRusukSudut={setJumlahRusukSudut}
-          />
-
-          {/* Sifat Bangun Ruang (Informasi) */}
-          <SifatBangunRuang />
-
-          <TahapEksplorasi
-            dataEksplorasi={dataEksplorasi}
-            setDataEksplorasi={setDataEksplorasi}
-          />
-
-          <TahapRefleksi
-            refleksi={refleksi}
-            setRefleksi={setRefleksi}
-            masukan={masukan}
-            setMasukan={setMasukan}
-          />
-
-          {/* Submit Button */}
-          <div className="flex gap-3 pt-2">
-            <button
-              type="button"
-              onClick={onNavigatePrev}
-              className="flex h-[42px] items-center gap-2 rounded-[10px] border border-[#dce7e7] bg-white px-6 text-[12px] font-bold text-[#718096] transition-all hover:bg-[#f7fafb]"
-            >
-              <ArrowLeft size={18} />
-              Kembali
-            </button>
-
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="flex h-[42px] flex-1 items-center justify-center gap-2 rounded-[10px] bg-[#18aaa6] px-6 text-[12px] font-bold text-white shadow-[0_4px_12px_rgba(24,170,166,0.25)] transition-all hover:bg-[#108f8b] disabled:opacity-60"
-            >
-              {isSubmitting ? (
-                <>
-                  <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24">
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                      fill="none"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                  Menyimpan...
-                </>
-              ) : showSuccess ? (
-                <>
-                  <CheckCircle2 size={18} />
-                  Berhasil!
-                </>
-              ) : (
-                <>
-                  <Send size={18} />
-                  Kirim Jawaban
-                </>
-              )}
-            </button>
-
-            <button
-              type="button"
-              onClick={onNavigateNext}
-              className="flex h-[42px] items-center gap-2 rounded-[10px] bg-[#18aaa6] px-6 text-[12px] font-bold text-white shadow-[0_4px_12px_rgba(24,170,166,0.25)] transition-all hover:bg-[#108f8b]"
-            >
-              Lanjut
-              <ArrowRight size={18} />
-            </button>
+            <div className="hidden items-center gap-2 sm:flex">
+              <div className="rounded-full bg-white/15 px-3.5 py-1.5 text-[12px] font-bold text-white">
+                Pertemuan 1
+              </div>
+            </div>
+            <div className="hidden items-center gap-2 lg:flex">
+              <span className="text-[18px] text-[#ffca45]">✦</span>
+              <div className="h-[38px] w-[38px] rotate-[30deg] bg-[#17a4a3] shadow-[inset_-8px_-8px_0_rgba(0,0,0,0.1)]" />
+              <div className="h-[32px] w-[32px] rotate-[30deg] bg-[#ff7a43] shadow-[inset_-7px_-7px_0_rgba(0,0,0,0.1)]" />
+            </div>
           </div>
-        </div>
-      </main>
+          <div className="border-t border-white/10 px-4 py-2 sm:hidden">
+            <span className="rounded-full bg-white/15 px-3 py-1 text-[10px] font-bold text-white">
+              Pertemuan 1
+            </span>
+          </div>
+        </header>
 
-      {/* FOOTER */}
-      <footer className="border-t border-[#e5eeee] bg-white py-3.5 text-center">
-        <p className="text-[10px] text-[#8a96a5] sm:text-[11px]">
-          Inquiry Scaffolding Model
-          <span className="mx-2 text-[#c5cbcf]">•</span>
-          Geospace 2026
-        </p>
-      </footer>
-    </div>
+        {/* MAIN CONTENT */}
+        <main className="mx-auto w-full max-w-[1200px] px-4 py-6 sm:px-6 lg:px-8">
+          {/* Title */}
+          <div className="mb-6 text-center">
+            <h1 className="text-[24px] font-extrabold text-[#14263d] sm:text-[28px]">
+              Unsur dan Sifat Bangun Ruang
+            </h1>
+            <p className="mt-1 text-[12px] text-[#718096]">
+              Eksplorasi interaktif berbasis Inquiry Scaffolding
+            </p>
+          </div>
+
+          {/* Progress Indicator */}
+          <div className="mb-6 flex items-center justify-center gap-2">
+            {[1, 2, 3, 4].map((step) => (
+              <div key={step} className="flex items-center">
+                <div
+                  className={`flex h-[30px] w-[30px] items-center justify-center rounded-full text-[10px] font-bold ${
+                    step === 1
+                      ? "bg-[#18aaa6] text-white"
+                      : "bg-[#e5eeee] text-[#718096]"
+                  }`}
+                >
+                  {step}
+                </div>
+                {step < 4 && (
+                  <div className="h-[2px] w-[20px] bg-[#e5eeee] sm:w-[40px]" />
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* TAHAPAN */}
+          <div className="space-y-4">
+            <TahapOrientasi
+              jawaban={jawabanOrientasi}
+              setJawaban={setJawabanOrientasi}
+            />
+
+            <TahapHipotesis
+              bentukRuang={bentukRuang}
+              setBentukRuang={setBentukRuang}
+              alasan={alasan}
+              setAlasan={setAlasan}
+              jumlahSisi={jumlahSisi}
+              setJumlahSisi={setJumlahSisi}
+              jumlahRusukSudut={jumlahRusukSudut}
+              setJumlahRusukSudut={setJumlahRusukSudut}
+            />
+
+            {/* Sifat Bangun Ruang (Informasi) */}
+            <SifatBangunRuang />
+
+            <TahapEksplorasi
+              dataEksplorasi={dataEksplorasi}
+              setDataEksplorasi={setDataEksplorasi}
+            />
+
+            <TahapRefleksi
+              refleksi={refleksi}
+              setRefleksi={setRefleksi}
+              masukan={masukan}
+              setMasukan={setMasukan}
+            />
+
+            {/* Submit Button */}
+            <div className="flex gap-3 pt-2">
+              <button
+                type="button"
+                onClick={onNavigatePrev}
+                className="flex h-[42px] items-center gap-2 rounded-[10px] border border-[#dce7e7] bg-white px-6 text-[12px] font-bold text-[#718096] transition-all hover:bg-[#f7fafb]"
+              >
+                <ArrowLeft size={18} />
+                Kembali
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className="flex h-[42px] flex-1 items-center justify-center gap-2 rounded-[10px] bg-[#18aaa6] px-6 text-[12px] font-bold text-white shadow-[0_4px_12px_rgba(24,170,166,0.25)] transition-all hover:bg-[#108f8b] disabled:opacity-60"
+              >
+                {isSubmitting ? (
+                  <>
+                    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24">
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        fill="none"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                    Menyimpan...
+                  </>
+                ) : (
+                  <>
+                    <Send size={18} />
+                    Kirim Jawaban
+                  </>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={onNavigateNext}
+                className="flex h-[42px] items-center gap-2 rounded-[10px] bg-[#18aaa6] px-6 text-[12px] font-bold text-white shadow-[0_4px_12px_rgba(24,170,166,0.25)] transition-all hover:bg-[#108f8b]"
+              >
+                Lanjut
+                <ArrowRight size={18} />
+              </button>
+            </div>
+          </div>
+        </main>
+
+        {/* FOOTER */}
+        <footer className="border-t border-[#e5eeee] bg-white py-3.5 text-center">
+          <p className="text-[10px] text-[#8a96a5] sm:text-[11px]">
+            Inquiry Scaffolding Model
+            <span className="mx-2 text-[#c5cbcf]">•</span>
+            Geospace 2026
+          </p>
+        </footer>
+      </div>
+
+      {/* SUBMIT POPUP */}
+      <SubmitPopup
+        isOpen={showSubmitPopup}
+        onClose={() => {
+          if (popupType === "success") {
+            if (onNavigateNext) onNavigateNext();
+          }
+          setShowSubmitPopup(false);
+        }}
+        onConfirm={executeSubmit}
+        title={
+          popupType === "confirm" ? "Kirim Jawaban?" :
+          popupType === "success" ? "Berhasil!" :
+          "Gagal!"
+        }
+        message={popupMessage}
+        confirmText="Ya, Kirim"
+        cancelText="Batal"
+        isLoading={isSubmitting}
+        type={popupType}
+      />
+    </>
   );
 }

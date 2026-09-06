@@ -21,6 +21,7 @@ import {
   Table,
 } from "lucide-react";
 import { supabase } from "../lib/supabase";
+import SubmitPopup from "./SubmitPopup";
 
 // =====================================================
 // GEOSPACE LOGO
@@ -99,7 +100,8 @@ const TahapOrientasi = ({
         {/* Pertanyaan 1 - Pilihan Bagian */}
         <div>
           <p className="text-[13px] font-bold text-[#14263d] mb-3">
-            ❓ Bagian mana saja dari kardus yang perlu untuk ditutup dengan kertas kado?
+            ❓ Bagian mana saja dari kardus yang perlu untuk ditutup dengan
+            kertas kado?
           </p>
           <div className="space-y-2">
             <label className="flex items-center gap-3 p-3 rounded-[10px] border border-[#dce7e7] hover:border-[#18aaa6] cursor-pointer transition-all">
@@ -111,7 +113,9 @@ const TahapOrientasi = ({
                 onChange={(e) => setPilihanBagian(e.target.value)}
                 className="accent-[#18aaa6]"
               />
-              <span className="text-[12px] text-[#26364b]">Bagian atas saja</span>
+              <span className="text-[12px] text-[#26364b]">
+                Bagian atas saja
+              </span>
             </label>
             <label className="flex items-center gap-3 p-3 rounded-[10px] border border-[#dce7e7] hover:border-[#18aaa6] cursor-pointer transition-all">
               <input
@@ -122,7 +126,9 @@ const TahapOrientasi = ({
                 onChange={(e) => setPilihanBagian(e.target.value)}
                 className="accent-[#18aaa6]"
               />
-              <span className="text-[12px] text-[#26364b]">Bagian depan saja</span>
+              <span className="text-[12px] text-[#26364b]">
+                Bagian depan saja
+              </span>
             </label>
             <label className="flex items-center gap-3 p-3 rounded-[10px] border border-[#dce7e7] hover:border-[#18aaa6] cursor-pointer transition-all">
               <input
@@ -133,7 +139,9 @@ const TahapOrientasi = ({
                 onChange={(e) => setPilihanBagian(e.target.value)}
                 className="accent-[#18aaa6]"
               />
-              <span className="text-[12px] text-[#26364b]">Semua bagian luar kardus</span>
+              <span className="text-[12px] text-[#26364b]">
+                Semua bagian luar kardus
+              </span>
             </label>
           </div>
         </div>
@@ -141,7 +149,8 @@ const TahapOrientasi = ({
         {/* Pertanyaan 2 */}
         <div>
           <label className="block text-[13px] font-bold text-[#14263d] mb-2">
-            ❓ Apakah cukup jika kita hanya menutup bagian atas dan depan kardus?
+            ❓ Apakah cukup jika kita hanya menutup bagian atas dan depan
+            kardus?
           </label>
           <textarea
             value={jawaban2}
@@ -154,7 +163,8 @@ const TahapOrientasi = ({
         {/* Pertanyaan 3 */}
         <div>
           <label className="block text-[13px] font-bold text-[#14263d] mb-2">
-            ❓ Jadi, apa yang perlu kita ketahui agar dapat menentukan banyak kertas kado yang dibutuhkan?
+            ❓ Jadi, apa yang perlu kita ketahui agar dapat menentukan banyak
+            kertas kado yang dibutuhkan?
           </label>
           <textarea
             value={jawaban3}
@@ -187,7 +197,9 @@ const BantuanJaringJaring = ({
       <div className="rounded-[12px] bg-white p-4 border border-[#d4e4f7] mb-4">
         <p className="text-[12px] text-[#4a6a8a] leading-relaxed">
           Agar seluruh kardus tertutup, kita perlu mengetahui{" "}
-          <span className="font-bold text-[#397ed0]">luas setiap bagian kardus</span>{" "}
+          <span className="font-bold text-[#397ed0]">
+            luas setiap bagian kardus
+          </span>{" "}
           dengan membuka kardus menjadi tampilan{" "}
           <span className="font-bold text-[#397ed0]">jaring-jaring</span>. Coba
           sekarang perhatikan gambar dari jaring-jaring yang telah dibuka!
@@ -232,7 +244,8 @@ const BantuanJaringJaring = ({
                   marginBottom: "8px",
                 }}
               >
-                ❓ Apa yang terjadi pada kardus setelah dibuka? Ada berapa bagian/sisi yang terlihat setelah kardus dibuka?
+                ❓ Apa yang terjadi pada kardus setelah dibuka? Ada berapa
+                bagian/sisi yang terlihat setelah kardus dibuka?
               </label>
               <textarea
                 value={jawabanBantuan1}
@@ -264,7 +277,8 @@ const BantuanJaringJaring = ({
                   marginBottom: "12px",
                 }}
               >
-                ❓ Menurut kalian apakah semua bagian yang terlihat tersebut merupakan bagian dari permukaan kardus?
+                ❓ Menurut kalian apakah semua bagian yang terlihat tersebut
+                merupakan bagian dari permukaan kardus?
               </p>
               <div style={{ display: "flex", gap: "16px" }}>
                 <label
@@ -378,10 +392,13 @@ const TahapHipotesis = ({ dugaan, setDugaan }) => {
             {/* Sisi Kiri - Teks */}
             <div style={{ flex: 1 }}>
               <p className="text-[11px] text-[#6a4a4a] leading-relaxed">
-                <span className="font-bold text-[#ff5d4d]">Luas permukaan bangun ruang</span>{" "}
+                <span className="font-bold text-[#ff5d4d]">
+                  Luas permukaan bangun ruang
+                </span>{" "}
                 adalah{" "}
                 <span className="font-bold">
-                  jumlah luas seluruh sisi yang terdapat pada bagian luar bangun ruang
+                  jumlah luas seluruh sisi yang terdapat pada bagian luar bangun
+                  ruang
                 </span>{" "}
                 tersebut. Sehingga untuk mengetahui luas permukaan bangun ruang
                 dengan lebih mudah, kita dapat membuka bangun tersebut menjadi{" "}
@@ -408,7 +425,9 @@ const TahapHipotesis = ({ dugaan, setDugaan }) => {
         {/* Menulis Dugaan */}
         <div>
           <label className="block text-[13px] font-bold text-[#14263d] mb-2">
-            ❓ Tuliskan dugaan kalian jika ingin mengetahui banyaknya kertas kado yang dibutuhkan maka apa yang harus dilakukan terhadap seluruh permukaan kardus tersebut?
+            ❓ Tuliskan dugaan kalian jika ingin mengetahui banyaknya kertas
+            kado yang dibutuhkan maka apa yang harus dilakukan terhadap seluruh
+            permukaan kardus tersebut?
           </label>
           <textarea
             value={dugaan}
@@ -495,7 +514,8 @@ const TahapKubus = ({
             {/* Sisi Kanan - Pernyataan */}
             <div style={{ flex: 1 }}>
               <p className="text-[11px] text-[#4a6a8a] leading-relaxed">
-                Jaring-jaring kubus terdiri dari 6 sisi berbentuk persegi dengan panjang sisi ={" "}
+                Jaring-jaring kubus terdiri dari 6 sisi berbentuk persegi dengan
+                panjang sisi ={" "}
                 <span className="font-bold text-[#397ed0]">s</span>. Sehingga
                 untuk mengetahui luas permukaan kubus kita harus mencari luas
                 permukaan 1 sisi kubus terlebih dahulu.
@@ -523,15 +543,21 @@ const TahapKubus = ({
           <p className="text-[11px] text-[#2d6a2d] leading-relaxed">
             <span className="font-bold">Benar sekali!</span>
             <br />
-            Luas permukaan satu sisi kubus = <span className="font-bold">s × s</span>. Sehingga untuk luas
-            keseluruhan luas permukaan kubus dikalikan dengan <span className="font-bold">6</span> jumlah sisinya.
+            Luas permukaan satu sisi kubus ={" "}
+            <span className="font-bold">s × s</span>. Sehingga untuk luas
+            keseluruhan luas permukaan kubus dikalikan dengan{" "}
+            <span className="font-bold">6</span> jumlah sisinya.
           </p>
         </div>
 
         {/* Rumus Luas Permukaan Kubus */}
         <div className="rounded-[12px] bg-[#f0fafa] p-4 border border-[#b9e5e3] text-center">
-          <p className="text-[13px] font-bold text-[#14263d]">RUMUS LUAS PERMUKAAN KUBUS</p>
-          <p className="text-[18px] font-extrabold text-[#18aaa6] mt-1">L = 6 × s × s</p>
+          <p className="text-[13px] font-bold text-[#14263d]">
+            RUMUS LUAS PERMUKAAN KUBUS
+          </p>
+          <p className="text-[18px] font-extrabold text-[#18aaa6] mt-1">
+            L = 6 × s × s
+          </p>
           <p className="text-[16px] font-bold text-[#18aaa6]">L = 6 × s²</p>
         </div>
 
@@ -542,7 +568,9 @@ const TahapKubus = ({
             AYO MEMBUKTIKAN!
           </h4>
           <p className="text-[11px] text-[#6a5a2a] mt-1">
-            Jika telah diketahui panjang rusuk dari kubus 15 Cm maka berapa Cm total yang dibutuhkan untuk kertas kado sehingga kardus dapat terbungkus sempurna?
+            Jika telah diketahui panjang rusuk dari kubus 15 Cm maka berapa Cm
+            total yang dibutuhkan untuk kertas kado sehingga kardus dapat
+            terbungkus sempurna?
           </p>
           <div className="flex justify-center my-2">
             <img
@@ -556,7 +584,9 @@ const TahapKubus = ({
         {/* Perhitungan */}
         <div className="grid grid-cols-2 gap-4">
           <div className="rounded-[12px] bg-[#f5f9ff] p-4 border border-[#d4e4f7]">
-            <p className="text-[11px] font-bold text-[#14263d]">1. Hitung luas satu sisi!</p>
+            <p className="text-[11px] font-bold text-[#14263d]">
+              1. Hitung luas satu sisi!
+            </p>
             <input
               type="text"
               value={luasSisi}
@@ -566,7 +596,9 @@ const TahapKubus = ({
             />
           </div>
           <div className="rounded-[12px] bg-[#f5f9ff] p-4 border border-[#d4e4f7]">
-            <p className="text-[11px] font-bold text-[#14263d]">2. Hitung luas permukaan kubus!</p>
+            <p className="text-[11px] font-bold text-[#14263d]">
+              2. Hitung luas permukaan kubus!
+            </p>
             <input
               type="text"
               value={luasPermukaan}
@@ -580,7 +612,8 @@ const TahapKubus = ({
         {/* Pertanyaan Kertas Kado */}
         <div>
           <label className="block text-[13px] font-bold text-[#14263d] mb-2">
-            ❓ Sehingga jumlah kertas kado yang dibutuhkan untuk membungkus kardus sebanyak...
+            ❓ Sehingga jumlah kertas kado yang dibutuhkan untuk membungkus
+            kardus sebanyak...
           </label>
           <input
             type="text"
@@ -601,33 +634,57 @@ const TahapKubus = ({
             <table className="w-full text-sm border-collapse">
               <thead>
                 <tr className="bg-[#f0f6ff]">
-                  <th className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-bold text-[#14263d]">No</th>
-                  <th className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-bold text-[#14263d]">Rusuk</th>
-                  <th className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-bold text-[#14263d]">Luas 1 sisi</th>
-                  <th className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-bold text-[#14263d]">Banyak sisi</th>
-                  <th className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-bold text-[#14263d]">Luas seluruh permukaan</th>
+                  <th className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-bold text-[#14263d]">
+                    No
+                  </th>
+                  <th className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-bold text-[#14263d]">
+                    Rusuk
+                  </th>
+                  <th className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-bold text-[#14263d]">
+                    Luas 1 sisi
+                  </th>
+                  <th className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-bold text-[#14263d]">
+                    Banyak sisi
+                  </th>
+                  <th className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-bold text-[#14263d]">
+                    Luas seluruh permukaan
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {tabelKubus.map((row, index) => (
                   <tr key={index}>
-                    <td className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] text-[#718096]">{index + 1}</td>
-                    <td className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-medium text-[#14263d]">{row.rusuk}</td>
+                    <td className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] text-[#718096]">
+                      {index + 1}
+                    </td>
+                    <td className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-medium text-[#14263d]">
+                      {row.rusuk}
+                    </td>
                     <td className="border border-[#d4e4f7] px-4 py-2">
                       <input
                         type="text"
                         value={row.luasSisi}
-                        onChange={(e) => handleTabelChange(index, "luasSisi", e.target.value)}
+                        onChange={(e) =>
+                          handleTabelChange(index, "luasSisi", e.target.value)
+                        }
                         placeholder="..."
                         className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10"
                       />
                     </td>
-                    <td className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-medium text-[#14263d]">6</td>
+                    <td className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-medium text-[#14263d]">
+                      6
+                    </td>
                     <td className="border border-[#d4e4f7] px-4 py-2">
                       <input
                         type="text"
                         value={row.luasPermukaan}
-                        onChange={(e) => handleTabelChange(index, "luasPermukaan", e.target.value)}
+                        onChange={(e) =>
+                          handleTabelChange(
+                            index,
+                            "luasPermukaan",
+                            e.target.value,
+                          )
+                        }
                         placeholder="..."
                         className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10"
                       />
@@ -671,7 +728,9 @@ const TahapBalok = ({
       }
       const validTypes = ["image/png", "image/jpeg", "image/gif", "image/webp"];
       if (!validTypes.includes(file.type)) {
-        alert("Format gambar tidak didukung. Gunakan PNG, JPG, GIF, atau WEBP.");
+        alert(
+          "Format gambar tidak didukung. Gunakan PNG, JPG, GIF, atau WEBP.",
+        );
         e.target.value = "";
         return;
       }
@@ -687,10 +746,16 @@ const TahapBalok = ({
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <span className="rounded-full bg-[#397ed0] px-3 py-1 text-[10px] font-bold text-white">Tahap 3B</span>
-            <h3 className="text-[15px] font-extrabold text-[#14263d]">Pengumpulan Data - Balok</h3>
+            <span className="rounded-full bg-[#397ed0] px-3 py-1 text-[10px] font-bold text-white">
+              Tahap 3B
+            </span>
+            <h3 className="text-[15px] font-extrabold text-[#14263d]">
+              Pengumpulan Data - Balok
+            </h3>
           </div>
-          <p className="text-[11px] text-[#718096]">Menentukan rumus luas permukaan balok</p>
+          <p className="text-[11px] text-[#718096]">
+            Menentukan rumus luas permukaan balok
+          </p>
         </div>
       </div>
 
@@ -703,15 +768,27 @@ const TahapBalok = ({
 
           <div className="mt-3 bg-white rounded-lg p-4 border border-[#d4e4f7]">
             <div className="flex items-center justify-center gap-2 flex-wrap">
-              <span className="text-[11px] font-bold text-[#14263d] bg-[#f0f6ff] px-3 py-1 rounded-full">Prism</span>
-              <span className="text-[11px] font-bold text-[#397ed0] bg-[#e8f0fe] px-3 py-1 rounded-full border border-[#397ed0]">Unfold</span>
-              <span className="text-[11px] font-bold text-[#14263d] bg-[#f0f6ff] px-3 py-1 rounded-full">Fold</span>
-              <span className="text-[11px] font-bold text-[#ff5d4d] bg-[#fff0ed] px-3 py-1 rounded-full border border-[#ff5d4d]">Sides: 4</span>
+              <span className="text-[11px] font-bold text-[#14263d] bg-[#f0f6ff] px-3 py-1 rounded-full">
+                Prism
+              </span>
+              <span className="text-[11px] font-bold text-[#397ed0] bg-[#e8f0fe] px-3 py-1 rounded-full border border-[#397ed0]">
+                Unfold
+              </span>
+              <span className="text-[11px] font-bold text-[#14263d] bg-[#f0f6ff] px-3 py-1 rounded-full">
+                Fold
+              </span>
+              <span className="text-[11px] font-bold text-[#ff5d4d] bg-[#fff0ed] px-3 py-1 rounded-full border border-[#ff5d4d]">
+                Sides: 4
+              </span>
             </div>
-            <p className="text-[10px] text-[#718096] text-center mt-2">Sesuaikan sides menjadi 4 untuk menjadi balok!</p>
+            <p className="text-[10px] text-[#718096] text-center mt-2">
+              Sesuaikan sides menjadi 4 untuk menjadi balok!
+            </p>
 
             <div className="mt-3 p-3 bg-[#e8f4f8] rounded-lg border border-[#b9e5e3] text-center">
-              <p className="text-[11px] font-medium text-[#14263d]">🔗 Eksplorasi jaring-jaring balok secara interaktif:</p>
+              <p className="text-[11px] font-medium text-[#14263d]">
+                🔗 Eksplorasi jaring-jaring balok secara interaktif:
+              </p>
               <a
                 href="https://www.geogebra.org/m/sgx8keqx"
                 target="_blank"
@@ -720,7 +797,10 @@ const TahapBalok = ({
               >
                 https://www.geogebra.org/m/sgx8keqx
               </a>
-              <p className="text-[9px] text-[#718096] mt-1">Buka link untuk melihat dan memanipulasi jaring-jaring balok secara 3D</p>
+              <p className="text-[9px] text-[#718096] mt-1">
+                Buka link untuk melihat dan memanipulasi jaring-jaring balok
+                secara 3D
+              </p>
             </div>
           </div>
 
@@ -737,12 +817,17 @@ const TahapBalok = ({
               <span className="text-[#ffb51b]">📎</span>
               Bagaimana bentuk jaring-jaring balok?
             </p>
-            <p className="text-[10px] text-[#6a5a2a] mt-1">Tempelkan hasil jaring-jaring balok pada kotak disamping!</p>
+            <p className="text-[10px] text-[#6a5a2a] mt-1">
+              Tempelkan hasil jaring-jaring balok pada kotak disamping!
+            </p>
             <div className="mt-2 border-2 border-dashed border-[#ffb51b]/50 rounded-lg p-4 bg-white/50 min-h-[80px] flex items-center justify-center">
               {gambarJaringBalok ? (
                 <div className="flex items-center gap-3 w-full">
                   <span className="text-[10px] text-[#18aaa6] truncate flex-1">
-                    ✅ {typeof gambarJaringBalok === "string" ? "Gambar tersimpan" : gambarJaringBalok.name}
+                    ✅{" "}
+                    {typeof gambarJaringBalok === "string"
+                      ? "Gambar tersimpan"
+                      : gambarJaringBalok.name}
                   </span>
                   <button
                     type="button"
@@ -754,7 +839,9 @@ const TahapBalok = ({
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <p className="text-[10px] text-[#a1acb7]">📷 Tempelkan gambar jaring-jaring balok disini</p>
+                  <p className="text-[10px] text-[#a1acb7]">
+                    📷 Tempelkan gambar jaring-jaring balok disini
+                  </p>
                   <input
                     type="file"
                     accept="image/*"
@@ -762,7 +849,10 @@ const TahapBalok = ({
                     id="uploadJaringBalok"
                     onChange={handleFileChange}
                   />
-                  <label htmlFor="uploadJaringBalok" className="ml-2 text-[10px] font-bold text-[#397ed0] hover:underline cursor-pointer">
+                  <label
+                    htmlFor="uploadJaringBalok"
+                    className="ml-2 text-[10px] font-bold text-[#397ed0] hover:underline cursor-pointer"
+                  >
                     Upload Gambar
                   </label>
                 </div>
@@ -773,7 +863,8 @@ const TahapBalok = ({
 
         <div>
           <label className="block text-[13px] font-bold text-[#14263d] mb-2">
-            ❓ Ada berapa sisi permukaan balok? Apakah semuanya memiliki besar yang sama?
+            ❓ Ada berapa sisi permukaan balok? Apakah semuanya memiliki besar
+            yang sama?
           </label>
           <textarea
             value={jawabanSisiBalok}
@@ -784,15 +875,24 @@ const TahapBalok = ({
         </div>
 
         <div className="rounded-[12px] bg-[#fff8e7] p-4 border border-[#f0dca7]">
-          <p className="text-[12px] font-bold text-[#14263d]">Menentukan Rumus Luas Permukaan Balok</p>
+          <p className="text-[12px] font-bold text-[#14263d]">
+            Menentukan Rumus Luas Permukaan Balok
+          </p>
           <p className="text-[11px] text-[#6a5a2a] mt-1">
-            Dikarenakan bentuk dari permukaan balok tidak saling sama besar maka untuk itu mari kita bedah dari bentuk jaring-jaringnya!
+            Dikarenakan bentuk dari permukaan balok tidak saling sama besar maka
+            untuk itu mari kita bedah dari bentuk jaring-jaringnya!
           </p>
           <div className="flex justify-center my-3">
-            <img src="/images/pertemuan4/6.png" alt="Diagram Balok" className="w-[350px] h-auto object-contain" />
+            <img
+              src="/images/pertemuan4/6.png"
+              alt="Diagram Balok"
+              className="w-[350px] h-auto object-contain"
+            />
           </div>
           <p className="text-[11px] text-[#6a5a2a]">
-            <span className="font-bold text-[#ffb51b]">CLUE!</span> Setiap sisi yang berhadapan memiliki besar yang sama, sekarang coba kalian jodohkan mana saja sisi yang sama besar.
+            <span className="font-bold text-[#ffb51b]">CLUE!</span> Setiap sisi
+            yang berhadapan memiliki besar yang sama, sekarang coba kalian
+            jodohkan mana saja sisi yang sama besar.
           </p>
         </div>
 
@@ -805,35 +905,89 @@ const TahapBalok = ({
             <table className="w-full text-sm border-collapse">
               <thead>
                 <tr className="bg-[#f0f6ff]">
-                  <th className="border border-[#d4e4f7] px-4 py-2 text-left text-[11px] font-bold text-[#14263d]">Pasangan sisi</th>
-                  <th className="border border-[#d4e4f7] px-4 py-2 text-left text-[11px] font-bold text-[#14263d]">Nomor</th>
-                  <th className="border border-[#d4e4f7] px-4 py-2 text-left text-[11px] font-bold text-[#14263d]">Rumus Luas Permukaan</th>
+                  <th className="border border-[#d4e4f7] px-4 py-2 text-left text-[11px] font-bold text-[#14263d]">
+                    Pasangan sisi
+                  </th>
+                  <th className="border border-[#d4e4f7] px-4 py-2 text-left text-[11px] font-bold text-[#14263d]">
+                    Nomor
+                  </th>
+                  <th className="border border-[#d4e4f7] px-4 py-2 text-left text-[11px] font-bold text-[#14263d]">
+                    Rumus Luas Permukaan
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="border border-[#d4e4f7] px-4 py-2 text-[11px] font-medium text-[#14263d]">Atas dan bawah</td>
-                  <td className="border border-[#d4e4f7] px-4 py-2">
-                    <input type="text" value={tabelBalok.atasBawah || ""} onChange={(e) => handleTabelChange("atasBawah", e.target.value)} placeholder="..." className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10" />
+                  <td className="border border-[#d4e4f7] px-4 py-2 text-[11px] font-medium text-[#14263d]">
+                    Atas dan bawah
                   </td>
                   <td className="border border-[#d4e4f7] px-4 py-2">
-                    <input type="text" value={tabelBalok.rumusAtasBawah || ""} onChange={(e) => handleTabelChange("rumusAtasBawah", e.target.value)} placeholder="p × l" className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10" />
+                    <input
+                      type="text"
+                      value={tabelBalok.atasBawah || ""}
+                      onChange={(e) =>
+                        handleTabelChange("atasBawah", e.target.value)
+                      }
+                      placeholder="..."
+                      className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10"
+                    />
+                  </td>
+                  <td className="border border-[#d4e4f7] px-4 py-2">
+                    <input
+                      type="text"
+                      value={tabelBalok.rumusAtasBawah || ""}
+                      onChange={(e) =>
+                        handleTabelChange("rumusAtasBawah", e.target.value)
+                      }
+                      placeholder="p × l"
+                      className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10"
+                    />
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-[#d4e4f7] px-4 py-2 text-[11px] font-medium text-[#14263d]">Depan dan belakang</td>
-                  <td className="border border-[#d4e4f7] px-4 py-2 text-[11px] text-[#718096]">1 dan 5</td>
+                  <td className="border border-[#d4e4f7] px-4 py-2 text-[11px] font-medium text-[#14263d]">
+                    Depan dan belakang
+                  </td>
+                  <td className="border border-[#d4e4f7] px-4 py-2 text-[11px] text-[#718096]">
+                    1 dan 5
+                  </td>
                   <td className="border border-[#d4e4f7] px-4 py-2">
-                    <input type="text" value={tabelBalok.rumusDepanBelakang || ""} onChange={(e) => handleTabelChange("rumusDepanBelakang", e.target.value)} placeholder="p × t" className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10" />
+                    <input
+                      type="text"
+                      value={tabelBalok.rumusDepanBelakang || ""}
+                      onChange={(e) =>
+                        handleTabelChange("rumusDepanBelakang", e.target.value)
+                      }
+                      placeholder="p × t"
+                      className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10"
+                    />
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-[#d4e4f7] px-4 py-2 text-[11px] font-medium text-[#14263d]">Kanan dan kiri</td>
-                  <td className="border border-[#d4e4f7] px-4 py-2">
-                    <input type="text" value={tabelBalok.kananKiri || ""} onChange={(e) => handleTabelChange("kananKiri", e.target.value)} placeholder="..." className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10" />
+                  <td className="border border-[#d4e4f7] px-4 py-2 text-[11px] font-medium text-[#14263d]">
+                    Kanan dan kiri
                   </td>
                   <td className="border border-[#d4e4f7] px-4 py-2">
-                    <input type="text" value={tabelBalok.rumusKananKiri || ""} onChange={(e) => handleTabelChange("rumusKananKiri", e.target.value)} placeholder="l × t" className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10" />
+                    <input
+                      type="text"
+                      value={tabelBalok.kananKiri || ""}
+                      onChange={(e) =>
+                        handleTabelChange("kananKiri", e.target.value)
+                      }
+                      placeholder="..."
+                      className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10"
+                    />
+                  </td>
+                  <td className="border border-[#d4e4f7] px-4 py-2">
+                    <input
+                      type="text"
+                      value={tabelBalok.rumusKananKiri || ""}
+                      onChange={(e) =>
+                        handleTabelChange("rumusKananKiri", e.target.value)
+                      }
+                      placeholder="l × t"
+                      className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -842,9 +996,15 @@ const TahapBalok = ({
         </div>
 
         <div className="rounded-[12px] bg-[#f0fafa] p-4 border border-[#b9e5e3] text-center">
-          <p className="text-[13px] font-bold text-[#14263d]">RUMUS LUAS PERMUKAAN BALOK</p>
-          <p className="text-[18px] font-extrabold text-[#18aaa6] mt-1">L = 2(pl + pt + lt)</p>
-          <p className="text-[12px] text-[#4a6a6a] mt-1">dimana p = panjang, l = lebar, t = tinggi</p>
+          <p className="text-[13px] font-bold text-[#14263d]">
+            RUMUS LUAS PERMUKAAN BALOK
+          </p>
+          <p className="text-[18px] font-extrabold text-[#18aaa6] mt-1">
+            L = 2(pl + pt + lt)
+          </p>
+          <p className="text-[12px] text-[#4a6a6a] mt-1">
+            dimana p = panjang, l = lebar, t = tinggi
+          </p>
         </div>
 
         <div className="rounded-[12px] bg-[#fff8e7] p-4 border border-[#f0dca7]">
@@ -852,9 +1012,16 @@ const TahapBalok = ({
             <Target size={18} className="text-[#ffb51b]" />
             AYO MEMBUKTIKAN!
           </h4>
-          <p className="text-[11px] text-[#6a5a2a] mt-1">Hitunglah luas permukaan lemari jika diketahui rusuknya 10 Cm, 12 Cm dan 30 Cm!</p>
+          <p className="text-[11px] text-[#6a5a2a] mt-1">
+            Hitunglah luas permukaan lemari jika diketahui rusuknya 10 Cm, 12 Cm
+            dan 30 Cm!
+          </p>
           <div className="flex justify-center my-2">
-            <img src="/images/pertemuan4/7.png" alt="Lemari" className="w-[150px] h-auto object-contain" />
+            <img
+              src="/images/pertemuan4/7.png"
+              alt="Lemari"
+              className="w-[150px] h-auto object-contain"
+            />
           </div>
         </div>
 
@@ -862,41 +1029,109 @@ const TahapBalok = ({
           <table className="w-full text-sm border-collapse">
             <thead>
               <tr className="bg-[#f0f6ff]">
-                <th className="border border-[#d4e4f7] px-4 py-2 text-left text-[11px] font-bold text-[#14263d]">Sisi</th>
-                <th className="border border-[#d4e4f7] px-4 py-2 text-left text-[11px] font-bold text-[#14263d]">Luas 1 sisi</th>
-                <th className="border border-[#d4e4f7] px-4 py-2 text-left text-[11px] font-bold text-[#14263d]">Banyak sisi</th>
-                <th className="border border-[#d4e4f7] px-4 py-2 text-left text-[11px] font-bold text-[#14263d]">Luas seluruh permukaan</th>
+                <th className="border border-[#d4e4f7] px-4 py-2 text-left text-[11px] font-bold text-[#14263d]">
+                  Sisi
+                </th>
+                <th className="border border-[#d4e4f7] px-4 py-2 text-left text-[11px] font-bold text-[#14263d]">
+                  Luas 1 sisi
+                </th>
+                <th className="border border-[#d4e4f7] px-4 py-2 text-left text-[11px] font-bold text-[#14263d]">
+                  Banyak sisi
+                </th>
+                <th className="border border-[#d4e4f7] px-4 py-2 text-left text-[11px] font-bold text-[#14263d]">
+                  Luas seluruh permukaan
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td className="border border-[#d4e4f7] px-4 py-2 text-[11px] font-medium text-[#14263d]">Atas dan Bawah</td>
-                <td className="border border-[#d4e4f7] px-4 py-2">
-                  <input type="text" value={tabelBalok.luasAtasBawah || ""} onChange={(e) => handleTabelChange("luasAtasBawah", e.target.value)} placeholder="..." className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10" />
+                <td className="border border-[#d4e4f7] px-4 py-2 text-[11px] font-medium text-[#14263d]">
+                  Atas dan Bawah
                 </td>
-                <td className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-medium text-[#14263d]">2</td>
                 <td className="border border-[#d4e4f7] px-4 py-2">
-                  <input type="text" value={tabelBalok.totalAtasBawah || ""} onChange={(e) => handleTabelChange("totalAtasBawah", e.target.value)} placeholder="..." className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10" />
+                  <input
+                    type="text"
+                    value={tabelBalok.luasAtasBawah || ""}
+                    onChange={(e) =>
+                      handleTabelChange("luasAtasBawah", e.target.value)
+                    }
+                    placeholder="..."
+                    className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10"
+                  />
+                </td>
+                <td className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-medium text-[#14263d]">
+                  2
+                </td>
+                <td className="border border-[#d4e4f7] px-4 py-2">
+                  <input
+                    type="text"
+                    value={tabelBalok.totalAtasBawah || ""}
+                    onChange={(e) =>
+                      handleTabelChange("totalAtasBawah", e.target.value)
+                    }
+                    placeholder="..."
+                    className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10"
+                  />
                 </td>
               </tr>
               <tr>
-                <td className="border border-[#d4e4f7] px-4 py-2 text-[11px] font-medium text-[#14263d]">Depan dan Belakang</td>
-                <td className="border border-[#d4e4f7] px-4 py-2">
-                  <input type="text" value={tabelBalok.luasDepanBelakang || ""} onChange={(e) => handleTabelChange("luasDepanBelakang", e.target.value)} placeholder="..." className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10" />
+                <td className="border border-[#d4e4f7] px-4 py-2 text-[11px] font-medium text-[#14263d]">
+                  Depan dan Belakang
                 </td>
-                <td className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-medium text-[#14263d]">2</td>
                 <td className="border border-[#d4e4f7] px-4 py-2">
-                  <input type="text" value={tabelBalok.totalDepanBelakang || ""} onChange={(e) => handleTabelChange("totalDepanBelakang", e.target.value)} placeholder="..." className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10" />
+                  <input
+                    type="text"
+                    value={tabelBalok.luasDepanBelakang || ""}
+                    onChange={(e) =>
+                      handleTabelChange("luasDepanBelakang", e.target.value)
+                    }
+                    placeholder="..."
+                    className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10"
+                  />
+                </td>
+                <td className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-medium text-[#14263d]">
+                  2
+                </td>
+                <td className="border border-[#d4e4f7] px-4 py-2">
+                  <input
+                    type="text"
+                    value={tabelBalok.totalDepanBelakang || ""}
+                    onChange={(e) =>
+                      handleTabelChange("totalDepanBelakang", e.target.value)
+                    }
+                    placeholder="..."
+                    className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10"
+                  />
                 </td>
               </tr>
               <tr>
-                <td className="border border-[#d4e4f7] px-4 py-2 text-[11px] font-medium text-[#14263d]">Kanan dan Kiri</td>
-                <td className="border border-[#d4e4f7] px-4 py-2">
-                  <input type="text" value={tabelBalok.luasKananKiri || ""} onChange={(e) => handleTabelChange("luasKananKiri", e.target.value)} placeholder="..." className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10" />
+                <td className="border border-[#d4e4f7] px-4 py-2 text-[11px] font-medium text-[#14263d]">
+                  Kanan dan Kiri
                 </td>
-                <td className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-medium text-[#14263d]">2</td>
                 <td className="border border-[#d4e4f7] px-4 py-2">
-                  <input type="text" value={tabelBalok.totalKananKiri || ""} onChange={(e) => handleTabelChange("totalKananKiri", e.target.value)} placeholder="..." className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10" />
+                  <input
+                    type="text"
+                    value={tabelBalok.luasKananKiri || ""}
+                    onChange={(e) =>
+                      handleTabelChange("luasKananKiri", e.target.value)
+                    }
+                    placeholder="..."
+                    className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10"
+                  />
+                </td>
+                <td className="border border-[#d4e4f7] px-4 py-2 text-center text-[11px] font-medium text-[#14263d]">
+                  2
+                </td>
+                <td className="border border-[#d4e4f7] px-4 py-2">
+                  <input
+                    type="text"
+                    value={tabelBalok.totalKananKiri || ""}
+                    onChange={(e) =>
+                      handleTabelChange("totalKananKiri", e.target.value)
+                    }
+                    placeholder="..."
+                    className="w-full rounded-[6px] border border-[#dce7e7] bg-white px-2 py-1 text-[11px] text-[#26364b] outline-none focus:border-[#397ed0] focus:ring-2 focus:ring-[#397ed0]/10"
+                  />
                 </td>
               </tr>
             </tbody>
@@ -904,7 +1139,9 @@ const TahapBalok = ({
         </div>
 
         <div>
-          <label className="block text-[13px] font-bold text-[#14263d] mb-2">Total luas permukaan balok</label>
+          <label className="block text-[13px] font-bold text-[#14263d] mb-2">
+            Total luas permukaan balok
+          </label>
           <input
             type="text"
             value={luasPermukaanBalok}
@@ -940,40 +1177,71 @@ const TahapRefleksi = ({
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <span className="rounded-full bg-[#2ea03c] px-3 py-1 text-[10px] font-bold text-white">Tahap 4</span>
-            <h3 className="text-[15px] font-extrabold text-[#14263d]">Pengujian Hipotesis & Refleksi</h3>
+            <span className="rounded-full bg-[#2ea03c] px-3 py-1 text-[10px] font-bold text-white">
+              Tahap 4
+            </span>
+            <h3 className="text-[15px] font-extrabold text-[#14263d]">
+              Pengujian Hipotesis & Refleksi
+            </h3>
           </div>
-          <p className="text-[11px] text-[#718096]">Evaluasi dugaan awal dan berikan masukan</p>
+          <p className="text-[11px] text-[#718096]">
+            Evaluasi dugaan awal dan berikan masukan
+          </p>
         </div>
       </div>
 
       <div className="space-y-4">
         <div>
           <label className="block text-[12px] font-bold text-[#14263d] mb-1.5">
-            ❓ Apakah cara yang kalian tulis pada hipotesis untuk menentukan jumlah kertas kado yang membungkus kardus sudah sesuai dengan yang telah ditemukan?
+            ❓ Apakah cara yang kalian tulis pada hipotesis untuk menentukan
+            jumlah kertas kado yang membungkus kardus sudah sesuai dengan yang
+            telah ditemukan?
           </label>
-          <textarea value={refleksi1} onChange={(e) => setRefleksi1(e.target.value)} placeholder="Ketik jawaban disini..." className="min-h-[60px] w-full resize-none rounded-[10px] border border-[#dce7e7] bg-white px-4 py-3 text-[12px] text-[#26364b] outline-none transition-all placeholder:text-[#a1acb7] focus:border-[#2ea03c] focus:ring-2 focus:ring-[#2ea03c]/10" />
+          <textarea
+            value={refleksi1}
+            onChange={(e) => setRefleksi1(e.target.value)}
+            placeholder="Ketik jawaban disini..."
+            className="min-h-[60px] w-full resize-none rounded-[10px] border border-[#dce7e7] bg-white px-4 py-3 text-[12px] text-[#26364b] outline-none transition-all placeholder:text-[#a1acb7] focus:border-[#2ea03c] focus:ring-2 focus:ring-[#2ea03c]/10"
+          />
         </div>
 
         <div>
           <label className="block text-[12px] font-bold text-[#14263d] mb-1.5">
-            ❓ Apakah cara yang digunakan untuk mengetahui kertas yang digunakan membungkus kardus berbentuk kubus dan balok sama?
+            ❓ Apakah cara yang digunakan untuk mengetahui kertas yang digunakan
+            membungkus kardus berbentuk kubus dan balok sama?
           </label>
-          <textarea value={refleksi2} onChange={(e) => setRefleksi2(e.target.value)} placeholder="Ketik jawaban disini..." className="min-h-[60px] w-full resize-none rounded-[10px] border border-[#dce7e7] bg-white px-4 py-3 text-[12px] text-[#26364b] outline-none transition-all placeholder:text-[#a1acb7] focus:border-[#2ea03c] focus:ring-2 focus:ring-[#2ea03c]/10" />
+          <textarea
+            value={refleksi2}
+            onChange={(e) => setRefleksi2(e.target.value)}
+            placeholder="Ketik jawaban disini..."
+            className="min-h-[60px] w-full resize-none rounded-[10px] border border-[#dce7e7] bg-white px-4 py-3 text-[12px] text-[#26364b] outline-none transition-all placeholder:text-[#a1acb7] focus:border-[#2ea03c] focus:ring-2 focus:ring-[#2ea03c]/10"
+          />
         </div>
 
         <div>
           <label className="block text-[12px] font-bold text-[#14263d] mb-1.5">
-            ❓ Apakah jika menggunakan rumus juga sama untuk rumus balok dan kubus?
+            ❓ Apakah jika menggunakan rumus juga sama untuk rumus balok dan
+            kubus?
           </label>
-          <textarea value={refleksi3} onChange={(e) => setRefleksi3(e.target.value)} placeholder="Ketik jawaban disini..." className="min-h-[60px] w-full resize-none rounded-[10px] border border-[#dce7e7] bg-white px-4 py-3 text-[12px] text-[#26364b] outline-none transition-all placeholder:text-[#a1acb7] focus:border-[#2ea03c] focus:ring-2 focus:ring-[#2ea03c]/10" />
+          <textarea
+            value={refleksi3}
+            onChange={(e) => setRefleksi3(e.target.value)}
+            placeholder="Ketik jawaban disini..."
+            className="min-h-[60px] w-full resize-none rounded-[10px] border border-[#dce7e7] bg-white px-4 py-3 text-[12px] text-[#26364b] outline-none transition-all placeholder:text-[#a1acb7] focus:border-[#2ea03c] focus:ring-2 focus:ring-[#2ea03c]/10"
+          />
         </div>
 
         <div>
           <label className="block text-[12px] font-bold text-[#14263d] mb-1.5">
-            💬 Tuliskan masukan dan saran untuk perbaikan kelompokmu dari teman dan guru berdasarkan hasil presentasi!
+            💬 Tuliskan masukan dan saran untuk perbaikan kelompokmu dari teman
+            dan guru berdasarkan hasil presentasi!
           </label>
-          <textarea value={masukan} onChange={(e) => setMasukan(e.target.value)} placeholder="Ketik jawaban disini..." className="min-h-[80px] w-full resize-none rounded-[10px] border border-[#dce7e7] bg-white px-4 py-3 text-[12px] text-[#26364b] outline-none transition-all placeholder:text-[#a1acb7] focus:border-[#2ea03c] focus:ring-2 focus:ring-[#2ea03c]/10" />
+          <textarea
+            value={masukan}
+            onChange={(e) => setMasukan(e.target.value)}
+            placeholder="Ketik jawaban disini..."
+            className="min-h-[80px] w-full resize-none rounded-[10px] border border-[#dce7e7] bg-white px-4 py-3 text-[12px] text-[#26364b] outline-none transition-all placeholder:text-[#a1acb7] focus:border-[#2ea03c] focus:ring-2 focus:ring-[#2ea03c]/10"
+          />
         </div>
       </div>
     </section>
@@ -1046,60 +1314,59 @@ export default function GeoExploreMeeting4({
   // UPLOAD IMAGE FILE
   // =====================================================
 
-const uploadImageFile = async (file, prefix) => {
-  if (!file) return "";
-  if (typeof file === "string") {
-    // Jika sudah URL lengkap, return
-    if (file.startsWith("http://") || file.startsWith("https://")) {
-      return file;
+  const uploadImageFile = async (file, prefix) => {
+    if (!file) return "";
+    if (typeof file === "string") {
+      // Jika sudah URL lengkap, return
+      if (file.startsWith("http://") || file.startsWith("https://")) {
+        return file;
+      }
+      return "";
     }
-    return "";
-  }
 
-  try {
-    const fileExt = file.name.split(".").pop();
-    const fileName = `${prefix}_${Date.now()}.${fileExt}`;
+    try {
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${prefix}_${Date.now()}.${fileExt}`;
 
-    console.log(`📤 Uploading: ${fileName}`);
+      console.log(`📤 Uploading: ${fileName}`);
 
-    const { data, error } = await supabase.storage
-      .from("student-uploads")
-      .upload(fileName, file, {
-        cacheControl: "3600",
-        upsert: true,
-        contentType: file.type || "image/png",
-      });
+      const { data, error } = await supabase.storage
+        .from("student-uploads")
+        .upload(fileName, file, {
+          cacheControl: "3600",
+          upsert: true,
+          contentType: file.type || "image/png",
+        });
 
-    if (error) {
-      console.error("❌ Upload error:", error);
+      if (error) {
+        console.error("❌ Upload error:", error);
+        return file.name;
+      }
+
+      console.log("✅ Upload success:", data);
+
+      // =====================================================
+      // CARA YANG BENAR UNTUK MENDAPATKAN PUBLIC URL
+      // =====================================================
+
+      // Method 1: Menggunakan getPublicUrl (REKOMENDASI)
+      const { data: publicUrlData } = supabase.storage
+        .from("student-uploads")
+        .getPublicUrl(fileName);
+
+      const publicUrl = publicUrlData.publicUrl;
+
+      console.log("🔗 Public URL:", publicUrl);
+
+      // Method 2: Manual (jika method 1 gagal)
+      // const manualUrl = `${supabase.supabaseUrl}/storage/v1/object/public/student-uploads/${fileName}`;
+
+      return publicUrl;
+    } catch (err) {
+      console.error("❌ Upload exception:", err);
       return file.name;
     }
-
-    console.log("✅ Upload success:", data);
-
-    // =====================================================
-    // CARA YANG BENAR UNTUK MENDAPATKAN PUBLIC URL
-    // =====================================================
-    
-    // Method 1: Menggunakan getPublicUrl (REKOMENDASI)
-    const { data: publicUrlData } = supabase.storage
-      .from("student-uploads")
-      .getPublicUrl(fileName);
-    
-    const publicUrl = publicUrlData.publicUrl;
-    
-    console.log("🔗 Public URL:", publicUrl);
-    
-    // Method 2: Manual (jika method 1 gagal)
-    // const manualUrl = `${supabase.supabaseUrl}/storage/v1/object/public/student-uploads/${fileName}`;
-    
-    return publicUrl;
-
-  } catch (err) {
-    console.error("❌ Upload exception:", err);
-    return file.name;
-  }
-};
+  };
 
   // ===================================================
   // FETCH EXISTING ANSWERS
@@ -1126,40 +1393,68 @@ const uploadImageFile = async (file, prefix) => {
         const balokMap = {};
 
         data.forEach((item) => {
-          if (item.tahap === "orientasi_zpd") setJawabanOrientasi1(item.jawaban || "");
-          else if (item.tahap === "orientasi_pilihan") setPilihanBagian(item.jawaban || "");
-          else if (item.tahap === "orientasi_cukup") setJawabanOrientasi2(item.jawaban || "");
-          else if (item.tahap === "orientasi_kesimpulan") setJawabanOrientasi3(item.jawaban || "");
-          else if (item.tahap === "bantuan_jaring") setJawabanBantuan1(item.jawaban || "");
-          else if (item.tahap === "bantuan_semua") setPilihanBantuan(item.jawaban || "");
+          if (item.tahap === "orientasi_zpd")
+            setJawabanOrientasi1(item.jawaban || "");
+          else if (item.tahap === "orientasi_pilihan")
+            setPilihanBagian(item.jawaban || "");
+          else if (item.tahap === "orientasi_cukup")
+            setJawabanOrientasi2(item.jawaban || "");
+          else if (item.tahap === "orientasi_kesimpulan")
+            setJawabanOrientasi3(item.jawaban || "");
+          else if (item.tahap === "bantuan_jaring")
+            setJawabanBantuan1(item.jawaban || "");
+          else if (item.tahap === "bantuan_semua")
+            setPilihanBantuan(item.jawaban || "");
           else if (item.tahap === "hipotesis") setDugaan(item.jawaban || "");
-          else if (item.tahap === "kubus_rumus_sisi") setRumusSisi(item.jawaban || "");
-          else if (item.tahap === "kubus_luas_sisi") setLuasSisi(item.jawaban || "");
-          else if (item.tahap === "kubus_luas_permukaan") setLuasPermukaan(item.jawaban || "");
-          else if (item.tahap === "kubus_kertas_kado") setJawabanKertas(item.jawaban || "");
-          else if (item.tahap === "balok_sisi") setJawabanSisiBalok(item.jawaban || "");
-          else if (item.tahap === "balok_total") setLuasPermukaanBalok(item.jawaban || "");
-          else if (item.tahap === "refleksi_hipotesis") setRefleksi1(item.jawaban || "");
-          else if (item.tahap === "refleksi_kubus_balok") setRefleksi2(item.jawaban || "");
-          else if (item.tahap === "refleksi_rumus") setRefleksi3(item.jawaban || "");
+          else if (item.tahap === "kubus_rumus_sisi")
+            setRumusSisi(item.jawaban || "");
+          else if (item.tahap === "kubus_luas_sisi")
+            setLuasSisi(item.jawaban || "");
+          else if (item.tahap === "kubus_luas_permukaan")
+            setLuasPermukaan(item.jawaban || "");
+          else if (item.tahap === "kubus_kertas_kado")
+            setJawabanKertas(item.jawaban || "");
+          else if (item.tahap === "balok_sisi")
+            setJawabanSisiBalok(item.jawaban || "");
+          else if (item.tahap === "balok_total")
+            setLuasPermukaanBalok(item.jawaban || "");
+          else if (item.tahap === "refleksi_hipotesis")
+            setRefleksi1(item.jawaban || "");
+          else if (item.tahap === "refleksi_kubus_balok")
+            setRefleksi2(item.jawaban || "");
+          else if (item.tahap === "refleksi_rumus")
+            setRefleksi3(item.jawaban || "");
           else if (item.tahap === "masukan") setMasukan(item.jawaban || "");
-          else if (item.tahap === "gambar_balok") setGambarJaringBalok(item.jawaban || null);
+          else if (item.tahap === "gambar_balok")
+            setGambarJaringBalok(item.jawaban || null);
           else if (item.tahap === "balok_tabel") {
-            if (item.pertanyaan === "Atas dan bawah - nomor") balokMap.atasBawah = item.jawaban;
-            if (item.pertanyaan === "Atas dan bawah - rumus") balokMap.rumusAtasBawah = item.jawaban;
-            if (item.pertanyaan === "Atas dan bawah - luas 1 sisi") balokMap.luasAtasBawah = item.jawaban;
-            if (item.pertanyaan === "Atas dan bawah - total") balokMap.totalAtasBawah = item.jawaban;
-            if (item.pertanyaan === "Depan dan belakang - rumus") balokMap.rumusDepanBelakang = item.jawaban;
-            if (item.pertanyaan === "Depan dan belakang - luas 1 sisi") balokMap.luasDepanBelakang = item.jawaban;
-            if (item.pertanyaan === "Depan dan belakang - total") balokMap.totalDepanBelakang = item.jawaban;
-            if (item.pertanyaan === "Kanan dan kiri - nomor") balokMap.kananKiri = item.jawaban;
-            if (item.pertanyaan === "Kanan dan kiri - rumus") balokMap.rumusKananKiri = item.jawaban;
-            if (item.pertanyaan === "Kanan dan kiri - luas 1 sisi") balokMap.luasKananKiri = item.jawaban;
-            if (item.pertanyaan === "Kanan dan kiri - total") balokMap.totalKananKiri = item.jawaban;
+            if (item.pertanyaan === "Atas dan bawah - nomor")
+              balokMap.atasBawah = item.jawaban;
+            if (item.pertanyaan === "Atas dan bawah - rumus")
+              balokMap.rumusAtasBawah = item.jawaban;
+            if (item.pertanyaan === "Atas dan bawah - luas 1 sisi")
+              balokMap.luasAtasBawah = item.jawaban;
+            if (item.pertanyaan === "Atas dan bawah - total")
+              balokMap.totalAtasBawah = item.jawaban;
+            if (item.pertanyaan === "Depan dan belakang - rumus")
+              balokMap.rumusDepanBelakang = item.jawaban;
+            if (item.pertanyaan === "Depan dan belakang - luas 1 sisi")
+              balokMap.luasDepanBelakang = item.jawaban;
+            if (item.pertanyaan === "Depan dan belakang - total")
+              balokMap.totalDepanBelakang = item.jawaban;
+            if (item.pertanyaan === "Kanan dan kiri - nomor")
+              balokMap.kananKiri = item.jawaban;
+            if (item.pertanyaan === "Kanan dan kiri - rumus")
+              balokMap.rumusKananKiri = item.jawaban;
+            if (item.pertanyaan === "Kanan dan kiri - luas 1 sisi")
+              balokMap.luasKananKiri = item.jawaban;
+            if (item.pertanyaan === "Kanan dan kiri - total")
+              balokMap.totalKananKiri = item.jawaban;
           }
         });
 
-        if (Object.keys(balokMap).length > 0) setTabelBalok((prev) => ({ ...prev, ...balokMap }));
+        if (Object.keys(balokMap).length > 0)
+          setTabelBalok((prev) => ({ ...prev, ...balokMap }));
       } catch (e) {
         console.error("Error loading existing answers:", e);
       }
@@ -1171,8 +1466,60 @@ const uploadImageFile = async (file, prefix) => {
   // ===================================================
   // SUBMIT JAWABAN
   // ===================================================
+  // State untuk Popup
+  const [showSubmitPopup, setShowSubmitPopup] = useState(false);
+  const [popupType, setPopupType] = useState("confirm"); // "confirm" | "success" | "error"
+  const [popupMessage, setPopupMessage] = useState("");
+  // ===================================================
+  // SUBMIT JAWABAN
+  // ===================================================
 
   const handleSubmit = async () => {
+    // Cek apakah ada jawaban yang diisi
+    const hasAnswers =
+      jawabanOrientasi1.trim() ||
+      pilihanBagian ||
+      jawabanOrientasi2.trim() ||
+      jawabanOrientasi3.trim() ||
+      jawabanBantuan1.trim() ||
+      pilihanBantuan ||
+      dugaan.trim() ||
+      rumusSisi.trim() ||
+      luasSisi.trim() ||
+      luasPermukaan.trim() ||
+      jawabanKertas.trim() ||
+      tabelKubus.some(
+        (row) => row.luasSisi.trim() || row.luasPermukaan.trim(),
+      ) ||
+      jawabanSisiBalok.trim() ||
+      Object.values(tabelBalok).some((v) => v?.trim()) ||
+      luasPermukaanBalok.trim() ||
+      gambarJaringBalok ||
+      refleksi1.trim() ||
+      refleksi2.trim() ||
+      refleksi3.trim() ||
+      masukan.trim();
+
+    if (!hasAnswers) {
+      setPopupType("error");
+      setPopupMessage(
+        "Silakan isi minimal 1 jawaban atau upload 1 gambar terlebih dahulu!",
+      );
+      setShowSubmitPopup(true);
+      return;
+    }
+
+    // Tampilkan popup konfirmasi
+    setPopupType("confirm");
+    setPopupMessage(
+      "Apakah Anda yakin ingin mengirimkan jawaban untuk Pertemuan 4?",
+    );
+    setShowSubmitPopup(true);
+  };
+
+  // Fungsi eksekusi submit setelah konfirmasi
+  const executeSubmit = async () => {
+    setShowSubmitPopup(false);
     setIsSubmitting(true);
 
     try {
@@ -1189,7 +1536,9 @@ const uploadImageFile = async (file, prefix) => {
       }
 
       if (!userId) {
-        alert("Silakan login terlebih dahulu!");
+        setPopupType("error");
+        setPopupMessage("Silakan login terlebih dahulu!");
+        setShowSubmitPopup(true);
         setIsSubmitting(false);
         return;
       }
@@ -1203,7 +1552,8 @@ const uploadImageFile = async (file, prefix) => {
           module_type: "geoexplore",
           pertemuan: 4,
           tahap: "orientasi_zpd",
-          pertanyaan: "Apa yang perlu diketahui untuk menentukan banyak kertas kado?",
+          pertanyaan:
+            "Apa yang perlu diketahui untuk menentukan banyak kertas kado?",
           jawaban: jawabanOrientasi1.trim(),
         });
       }
@@ -1233,7 +1583,8 @@ const uploadImageFile = async (file, prefix) => {
           module_type: "geoexplore",
           pertemuan: 4,
           tahap: "orientasi_kesimpulan",
-          pertanyaan: "Apa yang perlu diketahui untuk menentukan banyak kertas kado?",
+          pertanyaan:
+            "Apa yang perlu diketahui untuk menentukan banyak kertas kado?",
           jawaban: jawabanOrientasi3.trim(),
         });
       }
@@ -1389,7 +1740,10 @@ const uploadImageFile = async (file, prefix) => {
       let gambarBalokUrl = "";
       try {
         console.log("📤 Uploading gambar jaring-jaring balok...");
-        gambarBalokUrl = await uploadImageFile(gambarJaringBalok, `${userId}_p4_balok_jaring`);
+        gambarBalokUrl = await uploadImageFile(
+          gambarJaringBalok,
+          `${userId}_p4_balok_jaring`,
+        );
         console.log("✅ Gambar balok uploaded:", gambarBalokUrl);
       } catch (err) {
         console.error("Error uploading gambar balok:", err);
@@ -1449,7 +1803,9 @@ const uploadImageFile = async (file, prefix) => {
       }
 
       if (rowsToInsert.length === 0) {
-        alert("Silakan isi minimal 1 jawaban terlebih dahulu!");
+        setPopupType("error");
+        setPopupMessage("Silakan isi minimal 1 jawaban terlebih dahulu!");
+        setShowSubmitPopup(true);
         setIsSubmitting(false);
         return;
       }
@@ -1457,19 +1813,32 @@ const uploadImageFile = async (file, prefix) => {
       // Cek dan hapus jawaban lama jika ada
       const { data: existingAnswers } = await supabase
         .from("student_answers")
-        .select("id")
+        .select("id, tahap, jawaban")
         .eq("user_id", userId)
         .eq("module_type", "geoexplore")
         .eq("pertemuan", 4);
 
       if (existingAnswers && existingAnswers.length > 0) {
-        const confirmOverwrite = window.confirm(
-          "Anda sudah mengirimkan jawaban untuk Pertemuan 4.\n\nApakah Anda ingin mengganti dengan jawaban baru?"
-        );
-        if (!confirmOverwrite) {
-          setIsSubmitting(false);
-          return;
+        // Hapus file gambar lama dari Supabase Storage jika ada
+        const imageFilesToDelete = existingAnswers
+          .filter((item) => item.tahap === "gambar_balok" && item.jawaban)
+          .map((item) => {
+            const parts = item.jawaban.split("/student-uploads/");
+            return parts.length > 1 ? parts[1] : null;
+          })
+          .filter(Boolean);
+
+        if (imageFilesToDelete.length > 0) {
+          try {
+            console.log("🗑️ Menghapus gambar balok lama dari storage:", imageFilesToDelete);
+            await supabase.storage
+              .from("student-uploads")
+              .remove(imageFilesToDelete);
+          } catch (storageErr) {
+            console.error("Gagal menghapus gambar balok lama dari storage:", storageErr);
+          }
         }
+
         await supabase
           .from("student_answers")
           .delete()
@@ -1484,7 +1853,9 @@ const uploadImageFile = async (file, prefix) => {
 
       if (insertError) {
         console.error("Error saving answers:", insertError);
-        alert("Gagal menyimpan jawaban: " + insertError.message);
+        setPopupType("error");
+        setPopupMessage("Gagal menyimpan jawaban: " + insertError.message);
+        setShowSubmitPopup(true);
         setIsSubmitting(false);
         return;
       }
@@ -1522,14 +1893,20 @@ const uploadImageFile = async (file, prefix) => {
         ]);
       }
 
-      setShowSuccess(true);
+      // Tampilkan popup sukses
+      setPopupType("success");
+      setPopupMessage("Jawaban Anda berhasil dikirim untuk Pertemuan 4!");
+      setShowSubmitPopup(true);
+
       setTimeout(() => {
-        setShowSuccess(false);
+        setShowSubmitPopup(false);
         if (onNavigateNext) onNavigateNext();
-      }, 3000);
+      }, 2000);
     } catch (err) {
       console.error("Error submitting:", err);
-      alert("Terjadi kesalahan: " + err.message);
+      setPopupType("error");
+      setPopupMessage("Terjadi kesalahan: " + err.message);
+      setShowSubmitPopup(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -1540,186 +1917,218 @@ const uploadImageFile = async (file, prefix) => {
   // ===================================================
 
   return (
-    <div className="min-h-screen bg-[#f7fafb] text-[#14263d]">
-      {/* HEADER */}
-      <header className="sticky top-0 z-30 bg-[#006b70] shadow-[0_2px_10px_rgba(0,50,60,0.12)]">
-        <div className="mx-auto flex h-[62px] max-w-[1400px] items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex min-w-0 items-center gap-3">
-            <button
-              type="button"
-              onClick={onBack}
-              className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-all hover:bg-white/20"
-              aria-label="Kembali"
-            >
-              <ArrowLeft size={19} />
-            </button>
-            <GeospaceLogo />
-          </div>
-          <div className="hidden items-center gap-2 sm:flex">
-            <div className="rounded-full bg-white/15 px-3.5 py-1.5 text-[12px] font-bold text-white">
-              Pertemuan 4
-            </div>
-          </div>
-          <div className="hidden items-center gap-2 lg:flex">
-            <span className="text-[18px] text-[#ffca45]">✦</span>
-            <div className="h-[38px] w-[38px] rotate-[30deg] bg-[#17a4a3] shadow-[inset_-8px_-8px_0_rgba(0,0,0,0.1)]" />
-            <div className="h-[32px] w-[32px] rotate-[30deg] bg-[#ff7a43] shadow-[inset_-7px_-7px_0_rgba(0,0,0,0.1)]" />
-          </div>
-        </div>
-        <div className="border-t border-white/10 px-4 py-2 sm:hidden">
-          <span className="rounded-full bg-white/15 px-3 py-1 text-[10px] font-bold text-white">
-            Pertemuan 4
-          </span>
-        </div>
-      </header>
-
-      {/* MAIN CONTENT */}
-      <main className="mx-auto w-full max-w-[1200px] px-4 py-6 sm:px-6 lg:px-8">
-        {/* Title */}
-        <div className="mb-6 text-center">
-          <h1 className="text-[24px] font-extrabold text-[#14263d] sm:text-[28px]">
-            Rumus Luas Permukaan Bangun Ruang
-          </h1>
-          <p className="mt-1 text-[12px] text-[#718096]">
-            Eksplorasi interaktif berbasis Inquiry Scaffolding
-          </p>
-        </div>
-
-        {/* Progress Indicator */}
-        <div className="mb-6 flex items-center justify-center gap-2">
-          {[1, 2, 3, 4].map((step) => (
-            <div key={step} className="flex items-center">
-              <div
-                className={`flex h-[30px] w-[30px] items-center justify-center rounded-full text-[10px] font-bold ${
-                  step === 1
-                    ? "bg-[#18aaa6] text-white"
-                    : "bg-[#e5eeee] text-[#718096]"
-                }`}
+    <>
+      <div className="min-h-screen bg-[#f7fafb] text-[#14263d]">
+        {/* HEADER */}
+        <header className="sticky top-0 z-30 bg-[#006b70] shadow-[0_2px_10px_rgba(0,50,60,0.12)]">
+          <div className="mx-auto flex h-[62px] max-w-[1400px] items-center justify-between px-4 sm:px-6 lg:px-8">
+            <div className="flex min-w-0 items-center gap-3">
+              <button
+                type="button"
+                onClick={onBack}
+                className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-all hover:bg-white/20"
+                aria-label="Kembali"
               >
-                {step}
-              </div>
-              {step < 4 && (
-                <div className="h-[2px] w-[20px] bg-[#e5eeee] sm:w-[40px]" />
-              )}
+                <ArrowLeft size={19} />
+              </button>
+              <GeospaceLogo />
             </div>
-          ))}
-        </div>
-
-        {/* TAHAPAN */}
-        <div className="space-y-4">
-          <TahapOrientasi
-            jawaban1={jawabanOrientasi1}
-            setJawaban1={setJawabanOrientasi1}
-            pilihanBagian={pilihanBagian}
-            setPilihanBagian={setPilihanBagian}
-            jawaban2={jawabanOrientasi2}
-            setJawaban2={setJawabanOrientasi2}
-            jawaban3={jawabanOrientasi3}
-            setJawaban3={setJawabanOrientasi3}
-          />
-
-          <BantuanJaringJaring
-            jawabanBantuan1={jawabanBantuan1}
-            setJawabanBantuan1={setJawabanBantuan1}
-            pilihanBantuan={pilihanBantuan}
-            setPilihanBantuan={setPilihanBantuan}
-          />
-
-          <TahapHipotesis dugaan={dugaan} setDugaan={setDugaan} />
-
-          <TahapKubus
-            rumusSisi={rumusSisi}
-            setRumusSisi={setRumusSisi}
-            luasSisi={luasSisi}
-            setLuasSisi={setLuasSisi}
-            luasPermukaan={luasPermukaan}
-            setLuasPermukaan={setLuasPermukaan}
-            jawabanKertas={jawabanKertas}
-            setJawabanKertas={setJawabanKertas}
-            tabelKubus={tabelKubus}
-            setTabelKubus={setTabelKubus}
-          />
-
-          <TahapBalok
-            jawabanSisiBalok={jawabanSisiBalok}
-            setJawabanSisiBalok={setJawabanSisiBalok}
-            tabelBalok={tabelBalok}
-            setTabelBalok={setTabelBalok}
-            luasPermukaanBalok={luasPermukaanBalok}
-            setLuasPermukaanBalok={setLuasPermukaanBalok}
-            gambarJaringBalok={gambarJaringBalok}
-            setGambarJaringBalok={setGambarJaringBalok}
-          />
-
-          <TahapRefleksi
-            refleksi1={refleksi1}
-            setRefleksi1={setRefleksi1}
-            refleksi2={refleksi2}
-            setRefleksi2={setRefleksi2}
-            refleksi3={refleksi3}
-            setRefleksi3={setRefleksi3}
-            masukan={masukan}
-            setMasukan={setMasukan}
-          />
-
-          {/* Submit Button */}
-          <div className="flex gap-3 pt-2">
-            <button
-              type="button"
-              onClick={onNavigatePrev}
-              className="flex h-[42px] items-center gap-2 rounded-[10px] border border-[#dce7e7] bg-white px-6 text-[12px] font-bold text-[#718096] transition-all hover:bg-[#f7fafb]"
-            >
-              <ArrowLeft size={18} />
-              Kembali
-            </button>
-
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="flex h-[42px] flex-1 items-center justify-center gap-2 rounded-[10px] bg-[#18aaa6] px-6 text-[12px] font-bold text-white shadow-[0_4px_12px_rgba(24,170,166,0.25)] transition-all hover:bg-[#108f8b] disabled:opacity-60"
-            >
-              {isSubmitting ? (
-                <>
-                  <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                  </svg>
-                  Menyimpan...
-                </>
-              ) : showSuccess ? (
-                <>
-                  <CheckCircle2 size={18} />
-                  Berhasil!
-                </>
-              ) : (
-                <>
-                  <Send size={18} />
-                  Kirim Jawaban
-                </>
-              )}
-            </button>
-
-            <button
-              type="button"
-              onClick={onNavigateNext}
-              className="flex h-[42px] items-center gap-2 rounded-[10px] bg-[#18aaa6] px-6 text-[12px] font-bold text-white shadow-[0_4px_12px_rgba(24,170,166,0.25)] transition-all hover:bg-[#108f8b]"
-            >
-              Lanjut
-              <ArrowRight size={18} />
-            </button>
+            <div className="hidden items-center gap-2 sm:flex">
+              <div className="rounded-full bg-white/15 px-3.5 py-1.5 text-[12px] font-bold text-white">
+                Pertemuan 4
+              </div>
+            </div>
+            <div className="hidden items-center gap-2 lg:flex">
+              <span className="text-[18px] text-[#ffca45]">✦</span>
+              <div className="h-[38px] w-[38px] rotate-[30deg] bg-[#17a4a3] shadow-[inset_-8px_-8px_0_rgba(0,0,0,0.1)]" />
+              <div className="h-[32px] w-[32px] rotate-[30deg] bg-[#ff7a43] shadow-[inset_-7px_-7px_0_rgba(0,0,0,0.1)]" />
+            </div>
           </div>
-        </div>
-      </main>
+          <div className="border-t border-white/10 px-4 py-2 sm:hidden">
+            <span className="rounded-full bg-white/15 px-3 py-1 text-[10px] font-bold text-white">
+              Pertemuan 4
+            </span>
+          </div>
+        </header>
 
-      {/* FOOTER */}
-      <footer className="border-t border-[#e5eeee] bg-white py-3.5 text-center">
-        <p className="text-[10px] text-[#8a96a5] sm:text-[11px]">
-          Inquiry Scaffolding Model
-          <span className="mx-2 text-[#c5cbcf]">•</span>
-          Geospace 2026
-        </p>
-      </footer>
-    </div>
+        {/* MAIN CONTENT */}
+        <main className="mx-auto w-full max-w-[1200px] px-4 py-6 sm:px-6 lg:px-8">
+          {/* Title */}
+          <div className="mb-6 text-center">
+            <h1 className="text-[24px] font-extrabold text-[#14263d] sm:text-[28px]">
+              Rumus Luas Permukaan Bangun Ruang
+            </h1>
+            <p className="mt-1 text-[12px] text-[#718096]">
+              Eksplorasi interaktif berbasis Inquiry Scaffolding
+            </p>
+          </div>
+
+          {/* Progress Indicator */}
+          <div className="mb-6 flex items-center justify-center gap-2">
+            {[1, 2, 3, 4].map((step) => (
+              <div key={step} className="flex items-center">
+                <div
+                  className={`flex h-[30px] w-[30px] items-center justify-center rounded-full text-[10px] font-bold ${
+                    step === 1
+                      ? "bg-[#18aaa6] text-white"
+                      : "bg-[#e5eeee] text-[#718096]"
+                  }`}
+                >
+                  {step}
+                </div>
+                {step < 4 && (
+                  <div className="h-[2px] w-[20px] bg-[#e5eeee] sm:w-[40px]" />
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* TAHAPAN */}
+          <div className="space-y-4">
+            <TahapOrientasi
+              jawaban1={jawabanOrientasi1}
+              setJawaban1={setJawabanOrientasi1}
+              pilihanBagian={pilihanBagian}
+              setPilihanBagian={setPilihanBagian}
+              jawaban2={jawabanOrientasi2}
+              setJawaban2={setJawabanOrientasi2}
+              jawaban3={jawabanOrientasi3}
+              setJawaban3={setJawabanOrientasi3}
+            />
+
+            <BantuanJaringJaring
+              jawabanBantuan1={jawabanBantuan1}
+              setJawabanBantuan1={setJawabanBantuan1}
+              pilihanBantuan={pilihanBantuan}
+              setPilihanBantuan={setPilihanBantuan}
+            />
+
+            <TahapHipotesis dugaan={dugaan} setDugaan={setDugaan} />
+
+            <TahapKubus
+              rumusSisi={rumusSisi}
+              setRumusSisi={setRumusSisi}
+              luasSisi={luasSisi}
+              setLuasSisi={setLuasSisi}
+              luasPermukaan={luasPermukaan}
+              setLuasPermukaan={setLuasPermukaan}
+              jawabanKertas={jawabanKertas}
+              setJawabanKertas={setJawabanKertas}
+              tabelKubus={tabelKubus}
+              setTabelKubus={setTabelKubus}
+            />
+
+            <TahapBalok
+              jawabanSisiBalok={jawabanSisiBalok}
+              setJawabanSisiBalok={setJawabanSisiBalok}
+              tabelBalok={tabelBalok}
+              setTabelBalok={setTabelBalok}
+              luasPermukaanBalok={luasPermukaanBalok}
+              setLuasPermukaanBalok={setLuasPermukaanBalok}
+              gambarJaringBalok={gambarJaringBalok}
+              setGambarJaringBalok={setGambarJaringBalok}
+            />
+
+            <TahapRefleksi
+              refleksi1={refleksi1}
+              setRefleksi1={setRefleksi1}
+              refleksi2={refleksi2}
+              setRefleksi2={setRefleksi2}
+              refleksi3={refleksi3}
+              setRefleksi3={setRefleksi3}
+              masukan={masukan}
+              setMasukan={setMasukan}
+            />
+
+            {/* Submit Button */}
+            <div className="flex gap-3 pt-2">
+              <button
+                type="button"
+                onClick={onNavigatePrev}
+                className="flex h-[42px] items-center gap-2 rounded-[10px] border border-[#dce7e7] bg-white px-6 text-[12px] font-bold text-[#718096] transition-all hover:bg-[#f7fafb]"
+              >
+                <ArrowLeft size={18} />
+                Kembali
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSubmit} // ← Tetap sama
+                disabled={isSubmitting}
+                className="flex h-[42px] flex-1 items-center justify-center gap-2 rounded-[10px] bg-[#18aaa6] px-6 text-[12px] font-bold text-white shadow-[0_4px_12px_rgba(24,170,166,0.25)] transition-all hover:bg-[#108f8b] disabled:opacity-60"
+              >
+                {isSubmitting ? (
+                  <>
+                    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24">
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        fill="none"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                    Menyimpan...
+                  </>
+                ) : (
+                  <>
+                    <Send size={18} />
+                    Kirim Jawaban
+                  </>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={onNavigateNext}
+                className="flex h-[42px] items-center gap-2 rounded-[10px] bg-[#18aaa6] px-6 text-[12px] font-bold text-white shadow-[0_4px_12px_rgba(24,170,166,0.25)] transition-all hover:bg-[#108f8b]"
+              >
+                Lanjut
+                <ArrowRight size={18} />
+              </button>
+            </div>
+          </div>
+        </main>
+
+        {/* FOOTER */}
+        <footer className="border-t border-[#e5eeee] bg-white py-3.5 text-center">
+          <p className="text-[10px] text-[#8a96a5] sm:text-[11px]">
+            Inquiry Scaffolding Model
+            <span className="mx-2 text-[#c5cbcf]">•</span>
+            Geospace 2026
+          </p>
+        </footer>
+      </div>
+      {/* SUBMIT POPUP */}
+      <SubmitPopup
+        isOpen={showSubmitPopup}
+        onClose={() => {
+          if (popupType === "success") {
+            if (onNavigateNext) onNavigateNext();
+          }
+          setShowSubmitPopup(false);
+        }}
+        onConfirm={executeSubmit}
+        title={
+          popupType === "confirm"
+            ? "Kirim Jawaban?"
+            : popupType === "success"
+              ? "Berhasil!"
+              : "Gagal!"
+        }
+        message={popupMessage}
+        confirmText="Ya, Kirim"
+        cancelText="Batal"
+        isLoading={isSubmitting}
+        type={popupType}
+      />
+    </>
   );
 }

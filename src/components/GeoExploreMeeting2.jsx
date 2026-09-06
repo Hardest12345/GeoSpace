@@ -18,6 +18,7 @@ import {
   Eye,
 } from "lucide-react";
 import { supabase } from "../lib/supabase";
+import SubmitPopup from "./SubmitPopup";
 
 // =====================================================
 // GEOSPACE LOGO
@@ -570,17 +571,27 @@ export default function GeoExploreMeeting2({
         const konstruksiMap = {};
 
         data.forEach((item) => {
-          if (item.tahap === "orientasi_zpd") setJawabanOrientasi(item.jawaban || "");
-          else if (item.tahap === "orientasi_bentuk") setBentukBangunan(item.jawaban || "");
-          else if (item.tahap === "hipotesis_jumlah") setJumlahKubus(item.jawaban === "lebih" ? "lebih" : Number(item.jawaban));
-          else if (item.tahap === "hipotesis_dugaan") setDugaan(item.jawaban || "");
+          if (item.tahap === "orientasi_zpd")
+            setJawabanOrientasi(item.jawaban || "");
+          else if (item.tahap === "orientasi_bentuk")
+            setBentukBangunan(item.jawaban || "");
+          else if (item.tahap === "hipotesis_jumlah")
+            setJumlahKubus(
+              item.jawaban === "lebih" ? "lebih" : Number(item.jawaban),
+            );
+          else if (item.tahap === "hipotesis_dugaan")
+            setDugaan(item.jawaban || "");
           else if (item.tahap === "refleksi") setRefleksi(item.jawaban || "");
           else if (item.tahap === "masukan") setMasukan(item.jawaban || "");
           else if (item.tahap === "konstruksi") {
-            if (item.pertanyaan === "Jumlah susunan") konstruksiMap.jumlahSusunan = item.jawaban;
-            if (item.pertanyaan === "Susunan bawah") konstruksiMap.susunanBawah = item.jawaban;
-            if (item.pertanyaan === "Susunan atas") konstruksiMap.susunanAtas = item.jawaban;
-            if (item.pertanyaan === "Total Kubus") konstruksiMap.totalKubus = item.jawaban;
+            if (item.pertanyaan === "Jumlah susunan")
+              konstruksiMap.jumlahSusunan = item.jawaban;
+            if (item.pertanyaan === "Susunan bawah")
+              konstruksiMap.susunanBawah = item.jawaban;
+            if (item.pertanyaan === "Susunan atas")
+              konstruksiMap.susunanAtas = item.jawaban;
+            if (item.pertanyaan === "Total Kubus")
+              konstruksiMap.totalKubus = item.jawaban;
           }
         });
 
@@ -598,210 +609,247 @@ export default function GeoExploreMeeting2({
   // ===================================================
   // SUBMIT JAWABAN
   // ===================================================
-
+// State untuk Popup
+const [showSubmitPopup, setShowSubmitPopup] = useState(false);
+const [popupType, setPopupType] = useState("confirm"); // "confirm" | "success" | "error"
+const [popupMessage, setPopupMessage] = useState("");
   const handleSubmit = async () => {
-    setIsSubmitting(true);
+  // Cek apakah ada jawaban yang diisi
+  const hasAnswers = 
+    jawabanOrientasi.trim() ||
+    bentukBangunan ||
+    (jumlahKubus !== null) ||
+    dugaan.trim() ||
+    Object.values(dataKonstruksi).some(v => v?.trim()) ||
+    refleksi.trim() ||
+    masukan.trim();
 
-    try {
-      const savedData = localStorage.getItem("geospace_user");
-      let userId = null;
+  if (!hasAnswers) {
+    setPopupType("error");
+    setPopupMessage("Silakan isi minimal 1 jawaban terlebih dahulu!");
+    setShowSubmitPopup(true);
+    return;
+  }
 
-      if (savedData) {
-        try {
-          const sessionData = JSON.parse(savedData);
-          userId = sessionData.id;
-        } catch (e) {
-          console.error("Error parsing user session:", e);
-        }
+  // Tampilkan popup konfirmasi
+  setPopupType("confirm");
+  setPopupMessage("Apakah Anda yakin ingin mengirimkan jawaban untuk Pertemuan 2?");
+  setShowSubmitPopup(true);
+};
+
+// Fungsi eksekusi submit setelah konfirmasi
+const executeSubmit = async () => {
+  setShowSubmitPopup(false);
+  setIsSubmitting(true);
+
+  try {
+    const savedData = localStorage.getItem("geospace_user");
+    let userId = null;
+
+    if (savedData) {
+      try {
+        const sessionData = JSON.parse(savedData);
+        userId = sessionData.id;
+      } catch (e) {
+        console.error("Error parsing user session:", e);
       }
-
-      if (!userId) {
-        alert("Silakan login terlebih dahulu!");
-        setIsSubmitting(false);
-        return;
-      }
-
-      const rowsToInsert = [];
-
-      // Tahap 1 - Orientasi
-      if (jawabanOrientasi.trim()) {
-        rowsToInsert.push({
-          user_id: userId,
-          module_type: "geoexplore",
-          pertemuan: 2,
-          tahap: "orientasi_zpd",
-          pertanyaan: "Cara menyusun bangunan dari beberapa bangun ruang",
-          jawaban: jawabanOrientasi.trim(),
-        });
-      }
-      if (bentukBangunan) {
-        rowsToInsert.push({
-          user_id: userId,
-          module_type: "geoexplore",
-          pertemuan: 2,
-          tahap: "orientasi_bentuk",
-          pertanyaan: "Bangunan apa yang menyusun bangun tersebut",
-          jawaban: bentukBangunan,
-        });
-      }
-
-      // Tahap 2 - Hipotesis
-      if (jumlahKubus !== null) {
-        rowsToInsert.push({
-          user_id: userId,
-          module_type: "geoexplore",
-          pertemuan: 2,
-          tahap: "hipotesis_jumlah",
-          pertanyaan: "Jumlah kubus pada Taman Baca Al-Amin",
-          jawaban: String(jumlahKubus),
-        });
-      }
-      if (dugaan.trim()) {
-        rowsToInsert.push({
-          user_id: userId,
-          module_type: "geoexplore",
-          pertemuan: 2,
-          tahap: "hipotesis_dugaan",
-          pertanyaan: "Apakah bentuk bisa terlihat berbeda dari arah berbeda",
-          jawaban: dugaan.trim(),
-        });
-      }
-
-      // Tahap 3 - Konstruksi
-      const konstruksiFields = [
-        { key: "jumlahSusunan", label: "Jumlah susunan" },
-        { key: "susunanBawah", label: "Susunan bawah" },
-        { key: "susunanAtas", label: "Susunan atas" },
-        { key: "totalKubus", label: "Total Kubus" },
-      ];
-
-      konstruksiFields.forEach(({ key, label }) => {
-        if (dataKonstruksi[key]?.trim()) {
-          rowsToInsert.push({
-            user_id: userId,
-            module_type: "geoexplore",
-            pertemuan: 2,
-            tahap: "konstruksi",
-            pertanyaan: label,
-            jawaban: dataKonstruksi[key].trim(),
-          });
-        }
-      });
-
-      // Tahap 4 - Refleksi
-      if (refleksi.trim()) {
-        rowsToInsert.push({
-          user_id: userId,
-          module_type: "geoexplore",
-          pertemuan: 2,
-          tahap: "refleksi",
-          pertanyaan: "Apakah dugaan awal sudah benar?",
-          jawaban: refleksi.trim(),
-        });
-      }
-      if (masukan.trim()) {
-        rowsToInsert.push({
-          user_id: userId,
-          module_type: "geoexplore",
-          pertemuan: 2,
-          tahap: "masukan",
-          pertanyaan: "Masukan dan saran untuk perbaikan",
-          jawaban: masukan.trim(),
-        });
-      }
-
-      if (rowsToInsert.length === 0) {
-        alert("Silakan isi minimal 1 jawaban terlebih dahulu!");
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Cek dan hapus jawaban lama jika ada
-      const { data: existingAnswers } = await supabase
-        .from("student_answers")
-        .select("id")
-        .eq("user_id", userId)
-        .eq("module_type", "geoexplore")
-        .eq("pertemuan", 2);
-
-      if (existingAnswers && existingAnswers.length > 0) {
-        const confirmOverwrite = window.confirm(
-          "Anda sudah mengirimkan jawaban untuk Pertemuan 2.\n\nApakah Anda ingin mengganti dengan jawaban baru?",
-        );
-        if (!confirmOverwrite) {
-          setIsSubmitting(false);
-          return;
-        }
-        await supabase
-          .from("student_answers")
-          .delete()
-          .eq("user_id", userId)
-          .eq("module_type", "geoexplore")
-          .eq("pertemuan", 2);
-      }
-
-      const { error: insertError } = await supabase
-        .from("student_answers")
-        .insert(rowsToInsert);
-
-      if (insertError) {
-        console.error("Error saving answers:", insertError);
-        alert("Gagal menyimpan jawaban: " + insertError.message);
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Update progress
-      const { data: existingProgress } = await supabase
-        .from("progress")
-        .select("id")
-        .eq("user_id", userId)
-        .eq("module_type", "geoexplore")
-        .eq("pertemuan", 2);
-
-      if (existingProgress && existingProgress.length > 0) {
-        await supabase
-          .from("progress")
-          .update({
-            status: "completed",
-            progress_percentage: 100,
-            completed_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          })
-          .eq("user_id", userId)
-          .eq("module_type", "geoexplore")
-          .eq("pertemuan", 2);
-      } else {
-        await supabase.from("progress").insert([
-          {
-            user_id: userId,
-            module_type: "geoexplore",
-            pertemuan: 2,
-            status: "completed",
-            progress_percentage: 100,
-            completed_at: new Date().toISOString(),
-          },
-        ]);
-      }
-
-      setShowSuccess(true);
-      setTimeout(() => {
-        setShowSuccess(false);
-        if (onNavigateNext) onNavigateNext();
-      }, 3000);
-    } catch (err) {
-      console.error("Error submitting:", err);
-      alert("Terjadi kesalahan: " + err.message);
-    } finally {
-      setIsSubmitting(false);
     }
-  };
+
+    if (!userId) {
+      setPopupType("error");
+      setPopupMessage("Silakan login terlebih dahulu!");
+      setShowSubmitPopup(true);
+      setIsSubmitting(false);
+      return;
+    }
+
+    const rowsToInsert = [];
+
+    // Tahap 1 - Orientasi
+    if (jawabanOrientasi.trim()) {
+      rowsToInsert.push({
+        user_id: userId,
+        module_type: "geoexplore",
+        pertemuan: 2,
+        tahap: "orientasi_zpd",
+        pertanyaan: "Cara menyusun bangunan dari beberapa bangun ruang",
+        jawaban: jawabanOrientasi.trim(),
+      });
+    }
+    if (bentukBangunan) {
+      rowsToInsert.push({
+        user_id: userId,
+        module_type: "geoexplore",
+        pertemuan: 2,
+        tahap: "orientasi_bentuk",
+        pertanyaan: "Bangunan apa yang menyusun bangun tersebut",
+        jawaban: bentukBangunan,
+      });
+    }
+
+    // Tahap 2 - Hipotesis
+    if (jumlahKubus !== null) {
+      rowsToInsert.push({
+        user_id: userId,
+        module_type: "geoexplore",
+        pertemuan: 2,
+        tahap: "hipotesis_jumlah",
+        pertanyaan: "Jumlah kubus pada Taman Baca Al-Amin",
+        jawaban: String(jumlahKubus),
+      });
+    }
+    if (dugaan.trim()) {
+      rowsToInsert.push({
+        user_id: userId,
+        module_type: "geoexplore",
+        pertemuan: 2,
+        tahap: "hipotesis_dugaan",
+        pertanyaan: "Apakah bentuk bisa terlihat berbeda dari arah berbeda",
+        jawaban: dugaan.trim(),
+      });
+    }
+
+    // Tahap 3 - Konstruksi
+    const konstruksiFields = [
+      { key: "jumlahSusunan", label: "Jumlah susunan" },
+      { key: "susunanBawah", label: "Susunan bawah" },
+      { key: "susunanAtas", label: "Susunan atas" },
+      { key: "totalKubus", label: "Total Kubus" },
+    ];
+
+    konstruksiFields.forEach(({ key, label }) => {
+      if (dataKonstruksi[key]?.trim()) {
+        rowsToInsert.push({
+          user_id: userId,
+          module_type: "geoexplore",
+          pertemuan: 2,
+          tahap: "konstruksi",
+          pertanyaan: label,
+          jawaban: dataKonstruksi[key].trim(),
+        });
+      }
+    });
+
+    // Tahap 4 - Refleksi
+    if (refleksi.trim()) {
+      rowsToInsert.push({
+        user_id: userId,
+        module_type: "geoexplore",
+        pertemuan: 2,
+        tahap: "refleksi",
+        pertanyaan: "Apakah dugaan awal sudah benar?",
+        jawaban: refleksi.trim(),
+      });
+    }
+    if (masukan.trim()) {
+      rowsToInsert.push({
+        user_id: userId,
+        module_type: "geoexplore",
+        pertemuan: 2,
+        tahap: "masukan",
+        pertanyaan: "Masukan dan saran untuk perbaikan",
+        jawaban: masukan.trim(),
+      });
+    }
+
+    if (rowsToInsert.length === 0) {
+      setPopupType("error");
+      setPopupMessage("Silakan isi minimal 1 jawaban terlebih dahulu!");
+      setShowSubmitPopup(true);
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Cek apakah sudah ada jawaban sebelumnya
+    const { data: existingAnswers } = await supabase
+      .from("student_answers")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("module_type", "geoexplore")
+      .eq("pertemuan", 2);
+
+    if (existingAnswers && existingAnswers.length > 0) {
+      // Hapus jawaban lama
+      await supabase
+        .from("student_answers")
+        .delete()
+        .eq("user_id", userId)
+        .eq("module_type", "geoexplore")
+        .eq("pertemuan", 2);
+    }
+
+    const { error: insertError } = await supabase
+      .from("student_answers")
+      .insert(rowsToInsert);
+
+    if (insertError) {
+      console.error("Error saving answers:", insertError);
+      setPopupType("error");
+      setPopupMessage("Gagal menyimpan jawaban: " + insertError.message);
+      setShowSubmitPopup(true);
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Update progress
+    const { data: existingProgress } = await supabase
+      .from("progress")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("module_type", "geoexplore")
+      .eq("pertemuan", 2);
+
+    if (existingProgress && existingProgress.length > 0) {
+      await supabase
+        .from("progress")
+        .update({
+          status: "completed",
+          progress_percentage: 100,
+          completed_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        })
+        .eq("user_id", userId)
+        .eq("module_type", "geoexplore")
+        .eq("pertemuan", 2);
+    } else {
+      await supabase.from("progress").insert([
+        {
+          user_id: userId,
+          module_type: "geoexplore",
+          pertemuan: 2,
+          status: "completed",
+          progress_percentage: 100,
+          completed_at: new Date().toISOString(),
+        },
+      ]);
+    }
+
+    // Tampilkan popup sukses
+    setPopupType("success");
+    setPopupMessage("Jawaban Anda berhasil dikirim untuk Pertemuan 2!");
+    setShowSubmitPopup(true);
+    
+    setTimeout(() => {
+      setShowSubmitPopup(false);
+      if (onNavigateNext) onNavigateNext();
+    }, 2000);
+
+  } catch (err) {
+    console.error("Error submitting:", err);
+    setPopupType("error");
+    setPopupMessage("Terjadi kesalahan: " + err.message);
+    setShowSubmitPopup(true);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   // ===================================================
   // RENDER
   // ===================================================
 
   return (
+    <>
     <div className="min-h-screen bg-[#f7fafb] text-[#14263d]">
       {/* HEADER */}
       <header className="sticky top-0 z-30 bg-[#006b70] shadow-[0_2px_10px_rgba(0,50,60,0.12)]">
@@ -966,5 +1014,26 @@ export default function GeoExploreMeeting2({
         </p>
       </footer>
     </div>
+          <SubmitPopup
+        isOpen={showSubmitPopup}
+        onClose={() => {
+          if (popupType === "success") {
+            if (onNavigateNext) onNavigateNext();
+          }
+          setShowSubmitPopup(false);
+        }}
+        onConfirm={executeSubmit}
+        title={
+          popupType === "confirm" ? "Kirim Jawaban?" :
+          popupType === "success" ? "Berhasil!" :
+          "Gagal!"
+        }
+        message={popupMessage}
+        confirmText="Ya, Kirim"
+        cancelText="Batal"
+        isLoading={isSubmitting}
+        type={popupType}
+      />
+    </>
   );
 }

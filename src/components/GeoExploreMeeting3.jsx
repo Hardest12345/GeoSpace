@@ -20,6 +20,7 @@ import {
   LayoutGrid,
 } from "lucide-react";
 import { supabase } from "../lib/supabase";
+import SubmitPopup from "./SubmitPopup";
 
 // =====================================================
 // GEOSPACE LOGO
@@ -823,66 +824,65 @@ export default function GeoExploreMeeting3({
 
   // src/components/GeoExploreMeeting3.jsx - Perbaiki fungsi uploadImageFile
 
-// Metode alternatif menggunakan fetch langsung
+  // Metode alternatif menggunakan fetch langsung
 
-// src/components/GeoExploreMeeting3.jsx - Fungsi upload alternatif
+  // src/components/GeoExploreMeeting3.jsx - Fungsi upload alternatif
 
-// src/components/GeoExploreMeeting3.jsx - Perbaiki fungsi upload
+  // src/components/GeoExploreMeeting3.jsx - Perbaiki fungsi upload
 
-const uploadImageFile = async (file, prefix) => {
-  if (!file) return "";
-  if (typeof file === "string") {
-    // Jika sudah URL lengkap, return
-    if (file.startsWith("http://") || file.startsWith("https://")) {
-      return file;
+  const uploadImageFile = async (file, prefix) => {
+    if (!file) return "";
+    if (typeof file === "string") {
+      // Jika sudah URL lengkap, return
+      if (file.startsWith("http://") || file.startsWith("https://")) {
+        return file;
+      }
+      return "";
     }
-    return "";
-  }
 
-  try {
-    const fileExt = file.name.split(".").pop();
-    const fileName = `${prefix}_${Date.now()}.${fileExt}`;
+    try {
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${prefix}_${Date.now()}.${fileExt}`;
 
-    console.log(`📤 Uploading: ${fileName}`);
+      console.log(`📤 Uploading: ${fileName}`);
 
-    const { data, error } = await supabase.storage
-      .from("student-uploads")
-      .upload(fileName, file, {
-        cacheControl: "3600",
-        upsert: true,
-        contentType: file.type || "image/png",
-      });
+      const { data, error } = await supabase.storage
+        .from("student-uploads")
+        .upload(fileName, file, {
+          cacheControl: "3600",
+          upsert: true,
+          contentType: file.type || "image/png",
+        });
 
-    if (error) {
-      console.error("❌ Upload error:", error);
+      if (error) {
+        console.error("❌ Upload error:", error);
+        return file.name;
+      }
+
+      console.log("✅ Upload success:", data);
+
+      // =====================================================
+      // CARA YANG BENAR UNTUK MENDAPATKAN PUBLIC URL
+      // =====================================================
+
+      // Method 1: Menggunakan getPublicUrl (REKOMENDASI)
+      const { data: publicUrlData } = supabase.storage
+        .from("student-uploads")
+        .getPublicUrl(fileName);
+
+      const publicUrl = publicUrlData.publicUrl;
+
+      console.log("🔗 Public URL:", publicUrl);
+
+      // Method 2: Manual (jika method 1 gagal)
+      // const manualUrl = `${supabase.supabaseUrl}/storage/v1/object/public/student-uploads/${fileName}`;
+
+      return publicUrl;
+    } catch (err) {
+      console.error("❌ Upload exception:", err);
       return file.name;
     }
-
-    console.log("✅ Upload success:", data);
-
-    // =====================================================
-    // CARA YANG BENAR UNTUK MENDAPATKAN PUBLIC URL
-    // =====================================================
-    
-    // Method 1: Menggunakan getPublicUrl (REKOMENDASI)
-    const { data: publicUrlData } = supabase.storage
-      .from("student-uploads")
-      .getPublicUrl(fileName);
-    
-    const publicUrl = publicUrlData.publicUrl;
-    
-    console.log("🔗 Public URL:", publicUrl);
-    
-    // Method 2: Manual (jika method 1 gagal)
-    // const manualUrl = `${supabase.supabaseUrl}/storage/v1/object/public/student-uploads/${fileName}`;
-    
-    return publicUrl;
-
-  } catch (err) {
-    console.error("❌ Upload exception:", err);
-    return file.name;
-  }
-};
+  };
   // State untuk Tahap 4
   const [refleksi, setRefleksi] = useState("");
   const [masukan, setMasukan] = useState("");
@@ -938,258 +938,319 @@ const uploadImageFile = async (file, prefix) => {
   // ===================================================
   // SUBMIT JAWABAN
   // ===================================================
+// State untuk Popup
+const [showSubmitPopup, setShowSubmitPopup] = useState(false);
+const [popupType, setPopupType] = useState("confirm"); // "confirm" | "success" | "error"
+const [popupMessage, setPopupMessage] = useState("");
+  // ===================================================
+// SUBMIT JAWABAN
+// ===================================================
 
-  const handleSubmit = async () => {
-    setIsSubmitting(true);
+const handleSubmit = async () => {
+  // Cek apakah ada jawaban yang diisi
+  const hasAnswers = 
+    jawabanOrientasi.trim() ||
+    dugaan.trim() ||
+    Object.values(dataVisualisasi).some(v => v?.trim()) ||
+    refleksi.trim() ||
+    masukan.trim() ||
+    Object.values(gambar1).some(v => v) ||
+    Object.values(gambar2).some(v => v) ||
+    Object.values(gambar3).some(v => v);
+
+  if (!hasAnswers) {
+    setPopupType("error");
+    setPopupMessage("Silakan isi minimal 1 jawaban atau upload 1 gambar terlebih dahulu!");
+    setShowSubmitPopup(true);
+    return;
+  }
+
+  // Tampilkan popup konfirmasi
+  setPopupType("confirm");
+  setPopupMessage("Apakah Anda yakin ingin mengirimkan jawaban untuk Pertemuan 3?");
+  setShowSubmitPopup(true);
+};
+
+// Fungsi eksekusi submit setelah konfirmasi
+const executeSubmit = async () => {
+  setShowSubmitPopup(false);
+  setIsSubmitting(true);
+
+  try {
+    const savedData = localStorage.getItem("geospace_user");
+    let userId = null;
+
+    if (savedData) {
+      try {
+        const sessionData = JSON.parse(savedData);
+        userId = sessionData.id;
+      } catch (e) {
+        console.error("Error parsing user session:", e);
+      }
+    }
+
+    if (!userId) {
+      setPopupType("error");
+      setPopupMessage("Silakan login terlebih dahulu!");
+      setShowSubmitPopup(true);
+      setIsSubmitting(false);
+      return;
+    }
+
+    const rowsToInsert = [];
+
+    // Tahap 1 - Orientasi
+    if (jawabanOrientasi.trim()) {
+      rowsToInsert.push({
+        user_id: userId,
+        module_type: "geoexplore",
+        pertemuan: 3,
+        tahap: "orientasi_zpd",
+        pertanyaan:
+          "Mengapa gambar pada video bisa terlihat berbeda meskipun objek sama?",
+        jawaban: jawabanOrientasi.trim(),
+      });
+    }
+
+    // Tahap 2 - Hipotesis
+    if (dugaan.trim()) {
+      rowsToInsert.push({
+        user_id: userId,
+        module_type: "geoexplore",
+        pertemuan: 3,
+        tahap: "hipotesis",
+        pertanyaan:
+          "Apakah satu tampilan cukup untuk mengetahui bentuk bangun ruang?",
+        jawaban: dugaan.trim(),
+      });
+    }
+
+    // Tahap 3 - Data Visualisasi
+    const visualisasiFields = [
+      { key: "depan", label: "Tampak Depan" },
+      { key: "samping", label: "Tampak Samping" },
+      { key: "atas", label: "Tampak Atas" },
+    ];
+
+    visualisasiFields.forEach(({ key, label }) => {
+      if (dataVisualisasi[key]?.trim()) {
+        rowsToInsert.push({
+          user_id: userId,
+          module_type: "geoexplore",
+          pertemuan: 3,
+          tahap: "visualisasi",
+          pertanyaan: label,
+          jawaban: dataVisualisasi[key].trim(),
+        });
+      }
+    });
+
+    // Upload gambar ke bucket jika ada
+    let g1DepanUrl = "", g1SampingUrl = "", g1AtasUrl = "";
+    let g2DepanUrl = "", g2SampingUrl = "", g2AtasUrl = "";
+    let g3DepanUrl = "", g3SampingUrl = "", g3AtasUrl = "";
 
     try {
-      const savedData = localStorage.getItem("geospace_user");
-      let userId = null;
-
-      if (savedData) {
-        try {
-          const sessionData = JSON.parse(savedData);
-          userId = sessionData.id;
-        } catch (e) {
-          console.error("Error parsing user session:", e);
-        }
-      }
-
-      if (!userId) {
-        alert("Silakan login terlebih dahulu!");
-        setIsSubmitting(false);
-        return;
-      }
-
-      const rowsToInsert = [];
-
-      // Tahap 1 - Orientasi
-      if (jawabanOrientasi.trim()) {
-        rowsToInsert.push({
-          user_id: userId,
-          module_type: "geoexplore",
-          pertemuan: 3,
-          tahap: "orientasi_zpd",
-          pertanyaan:
-            "Mengapa gambar pada video bisa terlihat berbeda meskipun objek sama?",
-          jawaban: jawabanOrientasi.trim(),
-        });
-      }
-
-      // Tahap 2 - Hipotesis
-      if (dugaan.trim()) {
-        rowsToInsert.push({
-          user_id: userId,
-          module_type: "geoexplore",
-          pertemuan: 3,
-          tahap: "hipotesis",
-          pertanyaan:
-            "Apakah satu tampilan cukup untuk mengetahui bentuk bangun ruang?",
-          jawaban: dugaan.trim(),
-        });
-      }
-
-      // Tahap 3 - Data Visualisasi
-      const visualisasiFields = [
-        { key: "depan", label: "Tampak Depan" },
-        { key: "samping", label: "Tampak Samping" },
-        { key: "atas", label: "Tampak Atas" },
-      ];
-
-      visualisasiFields.forEach(({ key, label }) => {
-        if (dataVisualisasi[key]?.trim()) {
-          rowsToInsert.push({
-            user_id: userId,
-            module_type: "geoexplore",
-            pertemuan: 3,
-            tahap: "visualisasi",
-            pertanyaan: label,
-            jawaban: dataVisualisasi[key].trim(),
-          });
-        }
-      });
-
-      // Upload gambar ke bucket jika ada
-let g1DepanUrl = "", g1SampingUrl = "", g1AtasUrl = "";
-let g2DepanUrl = "", g2SampingUrl = "", g2AtasUrl = "";
-let g3DepanUrl = "", g3SampingUrl = "", g3AtasUrl = "";
-
-try {
-  console.log("📤 Uploading Gambar 1...");
-  g1DepanUrl = await uploadImageFile(gambar1.depan, `${userId}_p3_g1_depan`);
-  g1SampingUrl = await uploadImageFile(gambar1.samping, `${userId}_p3_g1_samping`);
-  g1AtasUrl = await uploadImageFile(gambar1.atas, `${userId}_p3_g1_atas`);
-  console.log("✅ Gambar 1 uploaded");
-} catch (err) {
-  console.error("Error uploading Gambar 1:", err);
-}
-
-try {
-  console.log("📤 Uploading Gambar 2...");
-  g2DepanUrl = await uploadImageFile(gambar2.depan, `${userId}_p3_g2_depan`);
-  g2SampingUrl = await uploadImageFile(gambar2.samping, `${userId}_p3_g2_samping`);
-  g2AtasUrl = await uploadImageFile(gambar2.atas, `${userId}_p3_g2_atas`);
-  console.log("✅ Gambar 2 uploaded");
-} catch (err) {
-  console.error("Error uploading Gambar 2:", err);
-}
-
-try {
-  console.log("📤 Uploading Gambar 3...");
-  g3DepanUrl = await uploadImageFile(gambar3.depan, `${userId}_p3_g3_depan`);
-  g3SampingUrl = await uploadImageFile(gambar3.samping, `${userId}_p3_g3_samping`);
-  g3AtasUrl = await uploadImageFile(gambar3.atas, `${userId}_p3_g3_atas`);
-  console.log("✅ Gambar 3 uploaded");
-} catch (err) {
-  console.error("Error uploading Gambar 3:", err);
-}
-
-console.log("🔗 URLs:", {
-  g1DepanUrl, g1SampingUrl, g1AtasUrl,
-  g2DepanUrl, g2SampingUrl, g2AtasUrl,
-  g3DepanUrl, g3SampingUrl, g3AtasUrl
-});
-
-      // Gambar (simpan URL / nama file sebagai jawaban)
-      const gambarData = [
-        { name: "Gambar 1 - Depan", value: g1DepanUrl || gambar1.depan?.name || "" },
-        { name: "Gambar 1 - Samping", value: g1SampingUrl || gambar1.samping?.name || "" },
-        { name: "Gambar 1 - Atas", value: g1AtasUrl || gambar1.atas?.name || "" },
-        { name: "Gambar 2 - Depan", value: g2DepanUrl || gambar2.depan?.name || "" },
-        { name: "Gambar 2 - Samping", value: g2SampingUrl || gambar2.samping?.name || "" },
-        { name: "Gambar 2 - Atas", value: g2AtasUrl || gambar2.atas?.name || "" },
-        { name: "Gambar 3 - Depan", value: g3DepanUrl || gambar3.depan?.name || "" },
-        { name: "Gambar 3 - Samping", value: g3SampingUrl || gambar3.samping?.name || "" },
-        { name: "Gambar 3 - Atas", value: g3AtasUrl || gambar3.atas?.name || "" },
-      ];
-
-      gambarData.forEach(({ name, value }) => {
-        if (value) {
-          rowsToInsert.push({
-            user_id: userId,
-            module_type: "geoexplore",
-            pertemuan: 3,
-            tahap: "gambar",
-            pertanyaan: name,
-            jawaban: value, // Ini akan berisi URL atau nama file
-          });
-        }
-      });
-
-      // Tahap 4 - Refleksi
-      if (refleksi.trim()) {
-        rowsToInsert.push({
-          user_id: userId,
-          module_type: "geoexplore",
-          pertemuan: 3,
-          tahap: "refleksi",
-          pertanyaan: "Apakah dugaan awal sudah benar?",
-          jawaban: refleksi.trim(),
-        });
-      }
-      if (masukan.trim()) {
-        rowsToInsert.push({
-          user_id: userId,
-          module_type: "geoexplore",
-          pertemuan: 3,
-          tahap: "masukan",
-          pertanyaan: "Masukan dan saran untuk perbaikan",
-          jawaban: masukan.trim(),
-        });
-      }
-
-      if (rowsToInsert.length === 0) {
-        alert("Silakan isi minimal 1 jawaban terlebih dahulu!");
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Cek dan hapus jawaban lama jika ada
-      const { data: existingAnswers } = await supabase
-        .from("student_answers")
-        .select("id")
-        .eq("user_id", userId)
-        .eq("module_type", "geoexplore")
-        .eq("pertemuan", 3);
-
-      if (existingAnswers && existingAnswers.length > 0) {
-        const confirmOverwrite = window.confirm(
-          "Anda sudah mengirimkan jawaban untuk Pertemuan 3.\n\nApakah Anda ingin mengganti dengan jawaban baru?",
-        );
-        if (!confirmOverwrite) {
-          setIsSubmitting(false);
-          return;
-        }
-        await supabase
-          .from("student_answers")
-          .delete()
-          .eq("user_id", userId)
-          .eq("module_type", "geoexplore")
-          .eq("pertemuan", 3);
-      }
-
-      const { error: insertError } = await supabase
-        .from("student_answers")
-        .insert(rowsToInsert);
-
-      if (insertError) {
-        console.error("Error saving answers:", insertError);
-        alert("Gagal menyimpan jawaban: " + insertError.message);
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Update progress
-      const { data: existingProgress } = await supabase
-        .from("progress")
-        .select("id")
-        .eq("user_id", userId)
-        .eq("module_type", "geoexplore")
-        .eq("pertemuan", 3);
-
-      if (existingProgress && existingProgress.length > 0) {
-        await supabase
-          .from("progress")
-          .update({
-            status: "completed",
-            progress_percentage: 100,
-            completed_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          })
-          .eq("user_id", userId)
-          .eq("module_type", "geoexplore")
-          .eq("pertemuan", 3);
-      } else {
-        await supabase.from("progress").insert([
-          {
-            user_id: userId,
-            module_type: "geoexplore",
-            pertemuan: 3,
-            status: "completed",
-            progress_percentage: 100,
-            completed_at: new Date().toISOString(),
-          },
-        ]);
-      }
-
-      setShowSuccess(true);
-      setTimeout(() => {
-        setShowSuccess(false);
-        if (onNavigateNext) onNavigateNext();
-      }, 3000);
+      console.log("📤 Uploading Gambar 1...");
+      g1DepanUrl = await uploadImageFile(gambar1.depan, `${userId}_p3_g1_depan`);
+      g1SampingUrl = await uploadImageFile(gambar1.samping, `${userId}_p3_g1_samping`);
+      g1AtasUrl = await uploadImageFile(gambar1.atas, `${userId}_p3_g1_atas`);
+      console.log("✅ Gambar 1 uploaded");
     } catch (err) {
-      console.error("Error submitting:", err);
-      alert("Terjadi kesalahan: " + err.message);
-    } finally {
-      setIsSubmitting(false);
+      console.error("Error uploading Gambar 1:", err);
     }
-  };
+
+    try {
+      console.log("📤 Uploading Gambar 2...");
+      g2DepanUrl = await uploadImageFile(gambar2.depan, `${userId}_p3_g2_depan`);
+      g2SampingUrl = await uploadImageFile(gambar2.samping, `${userId}_p3_g2_samping`);
+      g2AtasUrl = await uploadImageFile(gambar2.atas, `${userId}_p3_g2_atas`);
+      console.log("✅ Gambar 2 uploaded");
+    } catch (err) {
+      console.error("Error uploading Gambar 2:", err);
+    }
+
+    try {
+      console.log("📤 Uploading Gambar 3...");
+      g3DepanUrl = await uploadImageFile(gambar3.depan, `${userId}_p3_g3_depan`);
+      g3SampingUrl = await uploadImageFile(gambar3.samping, `${userId}_p3_g3_samping`);
+      g3AtasUrl = await uploadImageFile(gambar3.atas, `${userId}_p3_g3_atas`);
+      console.log("✅ Gambar 3 uploaded");
+    } catch (err) {
+      console.error("Error uploading Gambar 3:", err);
+    }
+
+    console.log("🔗 URLs:", {
+      g1DepanUrl, g1SampingUrl, g1AtasUrl,
+      g2DepanUrl, g2SampingUrl, g2AtasUrl,
+      g3DepanUrl, g3SampingUrl, g3AtasUrl
+    });
+
+    // Gambar (simpan URL / nama file sebagai jawaban)
+    const gambarData = [
+      { name: "Gambar 1 - Depan", value: g1DepanUrl || gambar1.depan?.name || "" },
+      { name: "Gambar 1 - Samping", value: g1SampingUrl || gambar1.samping?.name || "" },
+      { name: "Gambar 1 - Atas", value: g1AtasUrl || gambar1.atas?.name || "" },
+      { name: "Gambar 2 - Depan", value: g2DepanUrl || gambar2.depan?.name || "" },
+      { name: "Gambar 2 - Samping", value: g2SampingUrl || gambar2.samping?.name || "" },
+      { name: "Gambar 2 - Atas", value: g2AtasUrl || gambar2.atas?.name || "" },
+      { name: "Gambar 3 - Depan", value: g3DepanUrl || gambar3.depan?.name || "" },
+      { name: "Gambar 3 - Samping", value: g3SampingUrl || gambar3.samping?.name || "" },
+      { name: "Gambar 3 - Atas", value: g3AtasUrl || gambar3.atas?.name || "" },
+    ];
+
+    gambarData.forEach(({ name, value }) => {
+      if (value) {
+        rowsToInsert.push({
+          user_id: userId,
+          module_type: "geoexplore",
+          pertemuan: 3,
+          tahap: "gambar",
+          pertanyaan: name,
+          jawaban: value,
+        });
+      }
+    });
+
+    // Tahap 4 - Refleksi
+    if (refleksi.trim()) {
+      rowsToInsert.push({
+        user_id: userId,
+        module_type: "geoexplore",
+        pertemuan: 3,
+        tahap: "refleksi",
+        pertanyaan: "Apakah dugaan awal sudah benar?",
+        jawaban: refleksi.trim(),
+      });
+    }
+    if (masukan.trim()) {
+      rowsToInsert.push({
+        user_id: userId,
+        module_type: "geoexplore",
+        pertemuan: 3,
+        tahap: "masukan",
+        pertanyaan: "Masukan dan saran untuk perbaikan",
+        jawaban: masukan.trim(),
+      });
+    }
+
+    if (rowsToInsert.length === 0) {
+      setPopupType("error");
+      setPopupMessage("Silakan isi minimal 1 jawaban terlebih dahulu!");
+      setShowSubmitPopup(true);
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Cek dan hapus jawaban lama jika ada
+    const { data: existingAnswers } = await supabase
+      .from("student_answers")
+      .select("id, tahap, jawaban")
+      .eq("user_id", userId)
+      .eq("module_type", "geoexplore")
+      .eq("pertemuan", 3);
+
+    if (existingAnswers && existingAnswers.length > 0) {
+      // Hapus file gambar lama dari Supabase Storage jika ada
+      const imageFilesToDelete = existingAnswers
+        .filter((item) => item.tahap === "gambar" && item.jawaban)
+        .map((item) => {
+          const parts = item.jawaban.split("/student-uploads/");
+          return parts.length > 1 ? parts[1] : null;
+        })
+        .filter(Boolean);
+
+      if (imageFilesToDelete.length > 0) {
+        try {
+          console.log("🗑️ Menghapus gambar lama dari storage:", imageFilesToDelete);
+          await supabase.storage
+            .from("student-uploads")
+            .remove(imageFilesToDelete);
+        } catch (storageErr) {
+          console.error("Gagal menghapus gambar lama dari storage:", storageErr);
+        }
+      }
+
+      await supabase
+        .from("student_answers")
+        .delete()
+        .eq("user_id", userId)
+        .eq("module_type", "geoexplore")
+        .eq("pertemuan", 3);
+    }
+
+    const { error: insertError } = await supabase
+      .from("student_answers")
+      .insert(rowsToInsert);
+
+    if (insertError) {
+      console.error("Error saving answers:", insertError);
+      setPopupType("error");
+      setPopupMessage("Gagal menyimpan jawaban: " + insertError.message);
+      setShowSubmitPopup(true);
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Update progress
+    const { data: existingProgress } = await supabase
+      .from("progress")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("module_type", "geoexplore")
+      .eq("pertemuan", 3);
+
+    if (existingProgress && existingProgress.length > 0) {
+      await supabase
+        .from("progress")
+        .update({
+          status: "completed",
+          progress_percentage: 100,
+          completed_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        })
+        .eq("user_id", userId)
+        .eq("module_type", "geoexplore")
+        .eq("pertemuan", 3);
+    } else {
+      await supabase.from("progress").insert([
+        {
+          user_id: userId,
+          module_type: "geoexplore",
+          pertemuan: 3,
+          status: "completed",
+          progress_percentage: 100,
+          completed_at: new Date().toISOString(),
+        },
+      ]);
+    }
+
+    // Tampilkan popup sukses
+    setPopupType("success");
+    setPopupMessage("Jawaban Anda berhasil dikirim untuk Pertemuan 3!");
+    setShowSubmitPopup(true);
+    
+    setTimeout(() => {
+      setShowSubmitPopup(false);
+      if (onNavigateNext) onNavigateNext();
+    }, 2000);
+
+  } catch (err) {
+    console.error("Error submitting:", err);
+    setPopupType("error");
+    setPopupMessage("Terjadi kesalahan: " + err.message);
+    setShowSubmitPopup(true);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   // ===================================================
   // RENDER
   // ===================================================
 
   return (
+    <>
     <div className="min-h-screen bg-[#f7fafb] text-[#14263d]">
       {/* HEADER */}
       <header className="sticky top-0 z-30 bg-[#006b70] shadow-[0_2px_10px_rgba(0,50,60,0.12)]">
@@ -1355,5 +1416,27 @@ console.log("🔗 URLs:", {
         </p>
       </footer>
     </div>
+    {/* SUBMIT POPUP */}
+<SubmitPopup
+  isOpen={showSubmitPopup}
+  onClose={() => {
+    if (popupType === "success") {
+      if (onNavigateNext) onNavigateNext();
+    }
+    setShowSubmitPopup(false);
+  }}
+  onConfirm={executeSubmit}
+  title={
+    popupType === "confirm" ? "Kirim Jawaban?" :
+    popupType === "success" ? "Berhasil!" :
+    "Gagal!"
+  }
+  message={popupMessage}
+  confirmText="Ya, Kirim"
+  cancelText="Batal"
+  isLoading={isSubmitting}
+  type={popupType}
+/>
+    </>
   );
 }
